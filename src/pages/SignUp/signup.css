@@ -1,0 +1,22 @@
+.signup-image {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .signup-image {
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+  }
+}

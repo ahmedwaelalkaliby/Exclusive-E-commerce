@@ -1,0 +1,13 @@
+.product-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.add-to-cart-btn {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.add-to-cart-btn:hover {
+  opacity: 0.5;
+}
