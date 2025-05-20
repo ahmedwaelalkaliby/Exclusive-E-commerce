@@ -17,7 +17,7 @@ export default function Sidebar() {
       <h6>Health & Buetty</h6>
     </div>
     <div className='col-9'>
-      <img src="../images/Frame.png" width={"100%"}></img>
+      <img src="/images/Frame.png" width={"100%"}></img>
     </div>
   
   </div>

@@ -73,14 +73,14 @@ export default function Header() {
               className="me-2"
               aria-label="search"
             />
-             <Button variant="light"><img src='../images/Vector.png'></img></Button>
+             <Button variant="light"><img src='/images/Vector.png'></img></Button>
           </Form>
           <NavLink to="/wishlist" className={style.wishlistIcon}>
-            <img src='../images/Wishlist.png'></img>
+            <img src='/images/Wishlist.png'></img>
             {wishlistQuantity > 0 && <span className={style.wishlistBadge}>{wishlistQuantity}</span>}
           </NavLink>
           <NavLink to="/cart" className={style.cartIcon}>
-            <img src='../images/Cart1.png'></img>
+            <img src='/images/Cart1.png'></img>
             {cartQuantity > 0 && <span className={style.cartBadge}>{cartQuantity}</span>}
           </NavLink>
         </Navbar.Collapse>

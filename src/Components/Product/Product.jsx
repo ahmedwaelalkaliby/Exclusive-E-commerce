@@ -152,7 +152,7 @@ export default function Product() {
                     >
                       <div className="d-flex gap-2 justify-content-center">
                         <img
-                          src="../images/Cart2.png"
+                          src="/images/Cart2.png"
                           style={{ width: "24px", height: "24px" }}
                         />
                         <p>Add To Cart</p>

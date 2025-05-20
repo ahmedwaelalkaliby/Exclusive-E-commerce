@@ -75,7 +75,7 @@ const Wishlist = () => {
                       className="position-absolute top-0 end-0 border-0 bg-transparent"
                       style={{ margin: "5px" }}
                     >
-                      <img src="../images/delete.png" alt="Remove" style={{ width: "20px", height: "20px" }} />
+                      <img src="/images/delete.png" alt="Remove" style={{ width: "20px", height: "20px" }} />
                     </button>
                   </div>
                   <Card.Body>
@@ -103,7 +103,7 @@ const Wishlist = () => {
                       >
                         <div className="d-flex gap-2 justify-content-center">
                           <img
-                            src="../images/Cart2.png"
+                            src="/images/Cart2.png"
                             style={{ width: "24px", height: "24px" }}
                           />
                           <p>Move to Cart</p>

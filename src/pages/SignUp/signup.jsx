@@ -59,7 +59,7 @@ export default function Signup() {
       <div className="row align-items-center justify-content-center">
         <div className="col-12 col-md-6 mb-4">
           <img
-            src="../images/phone1.png"
+            src="/images/phone1.png"
             className="img-fluid signup-image"
             alt="Signup"
           />

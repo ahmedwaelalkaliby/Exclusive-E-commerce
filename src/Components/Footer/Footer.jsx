@@ -18,7 +18,7 @@ export default function Footer() {
               variant="dark"
               aria-label="Enter E-mail"
             />
-             <Button variant="dark" className='me-4'><img src='../images/send.png'></img></Button>
+             <Button variant="dark" className='me-4'><img src='/images/send.png'></img></Button>
           </Form>
     </div>
     <div className='d-flex flex-column gap-3 col-2'>
@@ -47,17 +47,17 @@ export default function Footer() {
       <h2>Download App</h2>
       <p>Save $3 with App New User Only</p>
       <div className='d-flex gap-2'>
-        <img src="../images/Qrcode1.png" style={{ width: 76, height: 76 }} />
+        <img src="/images/Qrcode1.png" style={{ width: 76, height: 76 }} />
         <div className='d-flex flex-column gap-2'>
-          <img src="../images/play-store.png" style={{height:34, width:104}}/>
-          <img src="../images/appstore.png" style={{height:34, width:104}}/>  
+          <img src="/images/play-store.png" style={{height:34, width:104}}/>
+          <img src="/images/appstore.png" style={{height:34, width:104}}/>  
         </div>
       </div>
        <div className='d-flex gap-3'>
-            <img src="../images/Facebook.png" style={{ width: 24, height: 24 }} />
-            <img src="../images/Twitter1.png" style={{ width: 24, height: 24 }} />
-            <img src="../images/Instagram1.png" style={{ width: 24, height: 24 }} />
-            <img src="../images/Linkedin1.png" style={{width:24, height:24}} />
+            <img src="/images/Facebook.png" style={{ width: 24, height: 24 }} />
+            <img src="/images/Twitter1.png" style={{ width: 24, height: 24 }} />
+            <img src="/images/Instagram1.png" style={{ width: 24, height: 24 }} />
+            <img src="/images/Linkedin1.png" style={{width:24, height:24}} />
           </div>
     </div>
   </div>
