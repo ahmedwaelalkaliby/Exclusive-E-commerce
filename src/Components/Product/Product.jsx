@@ -18,9 +18,12 @@ import { toast } from 'react-toastify';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Spinner from 'react-bootstrap/Spinner';
+import { useAuth } from '../../context/AuthContext';
+
 export default function Product() {
   const dispatch = useDispatch();
   const wishlistItems = useSelector((state) => state.wishlist.items);
+  const { requireAuth } = useAuth();
 
   const getProducts = async () => {
     const response = await axios.get("https://ecommerce.routemisr.com/api/v1/products");
@@ -39,6 +42,8 @@ export default function Product() {
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
     e.preventDefault();
+    if (!requireAuth()) return;
+    
     dispatch(cartActions.addToCart({
       id: product.id,
       name: product.title,
@@ -59,6 +64,8 @@ export default function Product() {
   const handleWishlist = (e, product) => {
     e.stopPropagation();
     e.preventDefault();
+    if (!requireAuth()) return;
+    
     const isInWishlist = wishlistItems.some(item => item.id === product.id);
     
     if (isInWishlist) {

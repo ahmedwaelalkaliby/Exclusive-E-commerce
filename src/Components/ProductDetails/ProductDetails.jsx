@@ -17,11 +17,13 @@ import { cartActions } from '../../store/cartSlice';
 import { wishlistActions } from '../../store/wishlistSlice';
 import { toast } from 'react-toastify';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useAuth } from '../../context/AuthContext';
 
 export default function ProductDetails() {
   const { id , category} = useParams(); 
   const dispatch = useDispatch();
   const wishlistItems = useSelector((state) => state.wishlist.items);
+  const { requireAuth } = useAuth();
   const [productDetails, setProductDetails] = useState(null); 
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true); 
@@ -95,6 +97,8 @@ function fetchRelatedProducts(category, id) {
   };
 
   const handleWishlist = () => {
+    if (!requireAuth()) return;
+    
     const isInWishlist = wishlistItems.some(item => item.id === productDetails.id);
     
     if (isInWishlist) {
@@ -120,6 +124,8 @@ function fetchRelatedProducts(category, id) {
   const handleRelatedProductAddToCart = (e, product) => {
     e.stopPropagation();
     e.preventDefault();
+    if (!requireAuth()) return;
+    
     dispatch(cartActions.addToCart({
       id: product.id,
       name: product.title,

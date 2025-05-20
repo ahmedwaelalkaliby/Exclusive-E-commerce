@@ -6,11 +6,12 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import style from "./Header.module.css";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import ThemeContext from '../../ThemeContext.jsx/ThemeContext';
 import { useContext } from 'react';
 import { useSelector } from 'react-redux';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Header() {
   const [selectedLanguage, setSelectedLanguage] = useState("English");
@@ -19,6 +20,8 @@ export default function Header() {
   const {setTheme , theme} = useContext(ThemeContext)
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
   const wishlistQuantity = useSelector((state) => state.wishlist.items.length);
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
 
   const handleSelect = (language) => {
     setSelectedLanguage(language);
@@ -26,6 +29,11 @@ export default function Header() {
 
   const handleTheme = () => {
     setTheme(theme == "light" ? "dark" : "light"); 
+  }
+
+  const handleLogout = () => {
+    logout();
+    navigate('/Login');
   }
 
   return <>
@@ -64,7 +72,11 @@ export default function Header() {
             <NavLink to ="/" className={({isActive})=>isActive?"text-dark border-bottom " : ''}>Home</NavLink>
             <NavLink to ="/Contact" className={({isActive})=>isActive?"text-dark border-bottom " : ''}>Contact</NavLink>
             <NavLink to ="/About" className={({isActive})=>isActive?"text-dark border-bottom " : ''}>About</NavLink>
-            <NavLink to ="/signUp" className={({isActive})=>isActive?"text-dark border-bottom" : ''}>Sign Up</NavLink>
+            {!isAuthenticated ? (
+              <NavLink to="/Login" className={({isActive})=>isActive?"text-dark border-bottom" : ''}>Login</NavLink>
+            ) : (
+              <Button variant="link" className="text-dark text-decoration-none" onClick={handleLogout}>Logout</Button>
+            )}
           </Nav>
           <Form className="d-flex">
             <Form.Control

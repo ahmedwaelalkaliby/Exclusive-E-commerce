@@ -6,10 +6,13 @@ import * as Yup from 'yup';
 import TextField from '@mui/material/TextField';
 import { Link } from 'react-router-dom'
 import './Login.css'; // Import the new CSS file
+import { useAuth } from '../../context/AuthContext';
+import { toast } from 'react-toastify';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   async function handleRegister(formvalues) {
     try {
@@ -20,14 +23,15 @@ export default function Login() {
       );
       if (data.message === 'success') {
         setIsLoading(false);
+        login(data.user, data.token);
         navigate('/');
       } else {
         setIsLoading(false);
-        alert(data.message || 'An error occurred');
+        toast.error(data.message || 'An error occurred');
       }
     } catch (err) {
       setIsLoading(false);
-      alert(err.response?.data?.message || 'An error occurred');
+      toast.error(err.response?.data?.message || 'An error occurred');
     }
   }
 
