@@ -73,7 +73,7 @@ export default function Header() {
             <NavLink to ="/Contact" className={({isActive})=>isActive?"text-dark border-bottom " : ''}>Contact</NavLink>
             <NavLink to ="/About" className={({isActive})=>isActive?"text-dark border-bottom " : ''}>About</NavLink>
             {!isAuthenticated ? (
-              <NavLink to="/Login" className={({isActive})=>isActive?"text-dark border-bottom" : ''}>Login</NavLink>
+              <NavLink to="/signup" className={({isActive})=>isActive?"text-dark border-bottom" : ''}>Sign Up</NavLink>
             ) : (
               <Button variant="link" className="text-dark text-decoration-none" onClick={handleLogout}>Logout</Button>
             )}
