@@ -11,7 +11,8 @@ import Badge from "react-bootstrap/Badge";
 import Rating from '@mui/material/Rating';
 import { Link } from "react-router-dom";
 import style from './Wishlist.module.css';
-
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 const Wishlist = () => {
   const wishlistItems = useSelector((state) => state.wishlist.items);
   const dispatch = useDispatch();
@@ -107,7 +108,7 @@ const Wishlist = () => {
                         className="position-absolute top-0 end-0 border-0 bg-transparent"
                         style={{ margin: "5px" }}
                       >
-                        <img src="/images/delete.png" alt="Remove" style={{ width: "20px", height: "20px" }} />
+                        <DeleteOutlineIcon style={{ color: "red" }} />
                       </button>
                     </div>
                     <Card.Body>

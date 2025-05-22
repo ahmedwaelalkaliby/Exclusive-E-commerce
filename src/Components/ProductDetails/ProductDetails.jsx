@@ -19,7 +19,9 @@ import { toast } from 'react-toastify';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useAuth } from '../../context/AuthContext';
 import Spinner from 'react-bootstrap/Spinner';
-
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
+import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
 export default function ProductDetails() {
   const { id , category} = useParams(); 
   const dispatch = useDispatch();
@@ -338,7 +340,7 @@ function fetchRelatedProducts(category, id) {
             <div className='d-flex flex-column mt-3  ' style={{border:"1px solid black", width:" 400px" ,height: "180px", borderRadius: "5px"}}>
             <div className='d-flex gap-2 mt-3' style={{padding:"10px", width:" 400px"}}>
                <div>    
-                        <img src="../images/icon-delivery.png" style={{ width:"40px", height:" 40px"}} />
+                        <LocalShippingOutlinedIcon style={{ width:"40px", height:" 40px"}} />
                 </div> 
             <div className='d-flex flex-column gap-1' style={{ height:" 40px"}}>       
             <p>Free Delivery</p>
@@ -348,7 +350,7 @@ function fetchRelatedProducts(category, id) {
             <div style={{borderBottom: "1px solid black", marginTop:"15px"}}/>
             <div className='d-flex gap-2 mt-3' style={{padding:"10px", width:" 400px" }}>
                <div>    
-                        <img src="../images/Icon-return.png" style={{ width:"40px", height:" 40px"}} />
+                        <SyncOutlinedIcon style={{ width:"40px", height:" 40px"}} />
                 </div> 
             <div className='d-flex flex-column gap-1 mb-5' style={{ height:" 50px"}}>       
             <p>Return Delivery</p>
@@ -424,10 +426,7 @@ function fetchRelatedProducts(category, id) {
                   onClick={(e) => handleRelatedProductAddToCart(e, relatedProduct)}
                 >
                   <div className="d-flex gap-2 justify-content-center">
-                    <img
-                      src="../images/Cart2.png"
-                      style={{ width: "24px", height: "24px" }}
-                    />
+                    <ShoppingCartOutlinedIcon style={{"color":"white"}}/>
                     <p>Add To Cart</p>
                   </div>
                 </Button>
