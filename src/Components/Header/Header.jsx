@@ -75,7 +75,7 @@ export default function Header() {
             {!isAuthenticated ? (
               <NavLink to="/signup" className={({isActive})=>isActive?"text-dark border-bottom" : ''}>Sign Up</NavLink>
             ) : (
-              <Button variant="link" className="text-dark text-decoration-none" onClick={handleLogout}>Logout</Button>
+              <Button variant="link" className="text-dark text-decoration-none" onClick={handleLogout}>Log Out</Button>
             )}
           </Nav>
           <Form className="d-flex">
