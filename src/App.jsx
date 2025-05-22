@@ -16,10 +16,10 @@ import "react-rater/lib/react-rater.css";
 import ProductDetails from './Components/ProductDetails/ProductDetails';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import Cart from './pages/Cart';
+import Cart from './pages/Cart/Cart';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Wishlist from './pages/Wishlist';
+import Wishlist from './pages/Wishlist/Wishlist';
 import { AuthProvider } from './context/AuthContext';
 
 let queryClient = new QueryClient()

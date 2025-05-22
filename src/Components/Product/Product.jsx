@@ -80,6 +80,8 @@ export default function Product() {
         name: product.title,
         price: product.price * 0.9,
         image: product.imageCover,
+        category: product.category.name,
+        ratingsAverage: product.ratingsAverage || 0
       }));
       toast.success(`${product.title.split(" ").slice(0, 2).join(" ")} added to wishlist!`, {
         position: "top-right",
@@ -91,17 +93,45 @@ export default function Product() {
   if (loading) 
     return (
       <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "300px" }}>
-      <Spinner
-        animation="border"
-        role="status"
-        variant="danger"
-        style={{ width: "5rem", height: "5rem" }} // Increased size
-      >
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
-    </div>
+        <Spinner
+          animation="border"
+          role="status"
+          variant="danger"
+          style={{ width: "5rem", height: "5rem" }}
+        >
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
     );
-  if (error) return <p>Error: {error.message}</p>;
+
+  if (error) 
+    return (
+      <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: "300px" }}>
+        <div className="alert alert-danger" role="alert">
+          <h4 className="alert-heading">Error Loading Products!</h4>
+          <p>We're having trouble loading the products. Please try again later.</p>
+          <hr />
+          <p className="mb-0">Error details: {error.message}</p>
+        </div>
+        <Button 
+          variant="primary" 
+          className="mt-3"
+          onClick={() => window.location.reload()}
+        >
+          Retry
+        </Button>
+      </div>
+    );
+
+  if (!data || data.length === 0)
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "300px" }}>
+        <div className="alert alert-info" role="alert">
+          <h4 className="alert-heading">No Products Found</h4>
+          <p>There are no products available at the moment.</p>
+        </div>
+      </div>
+    );
 
   return (
     <>

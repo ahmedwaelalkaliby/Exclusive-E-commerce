@@ -18,6 +18,7 @@ import { wishlistActions } from '../../store/wishlistSlice';
 import { toast } from 'react-toastify';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useAuth } from '../../context/AuthContext';
+import Spinner from 'react-bootstrap/Spinner';
 
 export default function ProductDetails() {
   const { id , category} = useParams(); 
@@ -39,7 +40,7 @@ export default function ProductDetails() {
           
         setLoading(false); 
       } catch (err) {
-        setError(err.message); 
+        setError(err.response?.data?.message || err.message);
         setLoading(false); 
       }
     }; 
@@ -55,7 +56,8 @@ function fetchRelatedProducts(category, id) {
       setRelatedProducts(related);
     })
     .catch((err) => {
-      console.log(err);
+      console.error("Error fetching related products:", err);
+      setRelatedProducts([]);
     });
 }
 
@@ -113,6 +115,8 @@ function fetchRelatedProducts(category, id) {
         name: productDetails.title,
         price: productDetails.price * 0.9,
         image: productDetails.imageCover,
+        category: productDetails.category.name,
+        ratingsAverage: productDetails.ratingsAverage || 0
       }));
       toast.success(`${productDetails.title.split(" ").slice(0, 2).join(" ")} added to wishlist!`, {
         position: "top-right",
@@ -156,6 +160,8 @@ function fetchRelatedProducts(category, id) {
         name: product.title,
         price: product.price * 0.9,
         image: product.imageCover,
+        category: product.category.name,
+        ratingsAverage: product.ratingsAverage || 0
       }));
       toast.success(`${product.title.split(" ").slice(0, 2).join(" ")} added to wishlist!`, {
         position: "top-right",
@@ -164,8 +170,48 @@ function fetchRelatedProducts(category, id) {
     }
   };
 
-  if (loading) return <div>Loading...</div>; 
-  if (error) return <div>Error: {error}</div>; 
+  if (loading) 
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "300px" }}>
+        <Spinner
+          animation="border"
+          role="status"
+          variant="danger"
+          style={{ width: "5rem", height: "5rem" }}
+        >
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+
+  if (error) 
+    return (
+      <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: "300px" }}>
+        <div className="alert alert-danger" role="alert">
+          <h4 className="alert-heading">Error Loading Product Details!</h4>
+          <p>We're having trouble loading the product details. Please try again later.</p>
+          <hr />
+          <p className="mb-0">Error details: {error}</p>
+        </div>
+        <Button 
+          variant="primary" 
+          className="mt-3"
+          onClick={() => window.location.reload()}
+        >
+          Retry
+        </Button>
+      </div>
+    );
+
+  if (!productDetails)
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "300px" }}>
+        <div className="alert alert-info" role="alert">
+          <h4 className="alert-heading">Product Not Found</h4>
+          <p>The requested product could not be found.</p>
+        </div>
+      </div>
+    );
 
     return (
         <>
