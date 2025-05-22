@@ -63,8 +63,8 @@ const Wishlist = () => {
       <h2>Your Wishlist</h2>
       {!wishlistItems || wishlistItems.length === 0 ? (
         <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "300px" }}>
-          <div className="alert alert-info" role="alert">
-            <h4 className="alert-heading">Your Wishlist is Empty</h4>
+          <div className=" alert-info" role="alert">
+            <h4 className="alert-heading">Your wishlist is empty</h4>
             <p>You haven't added any items to your wishlist yet.</p>
             <hr />
             <p className="mb-0">

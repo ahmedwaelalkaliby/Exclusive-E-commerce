@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { cartActions } from '../../store/cartSlice';
 import style from './Cart.module.css';
 import { toast } from 'react-toastify';
-
+import { Link } from "react-router-dom";
 const Cart = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
@@ -21,7 +21,16 @@ const Cart = () => {
     <div className={style.cartContainer}>
       <h2>Your Shopping Cart</h2>
       {cartItems.length === 0 ? (
-        <p>Your cart is empty</p>
+        <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "300px" }}>
+          <div className=" alert-info" role="alert">
+            <h4 className="alert-heading">Your shopping cart is empty</h4>
+            <p>You haven't added any items to your cart yet.</p>
+            <hr />
+            <p className="mb-0">
+              <Link to="/" className="alert-link">Browse our products</Link> to find something you like!
+            </p>
+          </div>
+        </div>
       ) : (
         <>
           <div className={style.cartItems}>
