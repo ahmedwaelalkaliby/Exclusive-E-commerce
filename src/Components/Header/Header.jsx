@@ -1,103 +1,117 @@
-import React from 'react'
-import Dropdown from 'react-bootstrap/Dropdown';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import style from "./Header.module.css";
+import React, { useContext, useState } from 'react';
+import { Button, Container, Form, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useState } from "react";
 import ThemeContext from '../../ThemeContext.jsx/ThemeContext';
-import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useAuth } from '../../context/AuthContext';
 
 export default function Header() {
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
-  // const [selectedTheme, setSelectedTheme] = useState("Light Mode");
-
-  const {setTheme , theme} = useContext(ThemeContext)
+  const { setTheme, theme } = useContext(ThemeContext);
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
   const wishlistQuantity = useSelector((state) => state.wishlist.items.length);
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleSelect = (language) => {
-    setSelectedLanguage(language);
-  }
-
-  const handleTheme = () => {
-    setTheme(theme == "light" ? "dark" : "light"); 
-  }
+  // Sidebar state
+  const [showSidebar, setShowSidebar] = useState(false);
+  const handleCloseSidebar = () => setShowSidebar(false);
+  const handleShowSidebar = () => setShowSidebar(true);
 
   const handleLogout = () => {
     logout();
     navigate('/Login');
-  }
+    handleCloseSidebar();
+  };
 
-  return <>
-  <div className={style.Header}><p className={style.p}>Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%! ShopNow</p>
-    {/* <Dropdown>
-      <Dropdown.Toggle variant="dark">
-      {selectedLanguage}
-      </Dropdown.Toggle>
-      <Dropdown.Menu className='overflow-hidden'>
-        <Dropdown.Item onClick={() => handleSelect("English")}>English</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleSelect("Arabic")}>Arabic</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+  // Helper for NavLink onClick
+  const navLinkProps = {
+    onClick: handleCloseSidebar,
+  };
 
-    <Dropdown>
-      <Dropdown.Toggle variant="dark">
-        {theme}
-      </Dropdown.Toggle>
-      <Dropdown.Menu className='overflow-hidden'>
-        <Dropdown.Item onClick={() => handleTheme("Light")}>Light</Dropdown.Item>
-        <Dropdown.Item onClick={() => handleTheme("Dark")}>Dark</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown> */}
-  </div>
-   
-  <Navbar expand="lg" className="bg-body-tertiary">
-      <Container fluid>
-      <Navbar.Brand href="#">Exclusive</Navbar.Brand>
-        <Navbar.Toggle aria-controls="navbarScroll" />
-        <Navbar.Collapse id="navbarScroll">
-          <Nav
-            className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: '100px' }}
-            navbarScroll
+  return (
+    <>
+      <style>
+        {`
+          .nav-link.active {
+            color: #dc3545 !important;
+            font-weight: 500;
+          }
+          .nav-link:hover {
+            color: #dc3545 !important;
+          }
+        `}
+      </style>
+      
+      <div className="bg-dark text-white py-2">
+        <div className="container">
+          <p className="mb-0 text-center">
+            Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%! ShopNow
+          </p>
+        </div>
+      </div>
+
+      <Navbar expand="lg" bg="light" className="shadow-sm">
+        <Container fluid>
+          <Navbar.Brand href="#" className="fw-bold">Exclusive</Navbar.Brand>
+          <Navbar.Toggle aria-controls="sidebar-nav" onClick={handleShowSidebar} />
+          <Navbar.Offcanvas
+            id="sidebar-nav"
+            aria-labelledby="sidebar-nav-label"
+            placement="start"
+            show={showSidebar}
+            onHide={handleCloseSidebar}
           >
-            <NavLink to ="/" className={({isActive})=>isActive?"text-dark border-bottom " : ''}>Home</NavLink>
-            <NavLink to ="/Contact" className={({isActive})=>isActive?"text-dark border-bottom " : ''}>Contact</NavLink>
-            <NavLink to ="/About" className={({isActive})=>isActive?"text-dark border-bottom " : ''}>About</NavLink>
-            {!isAuthenticated ? (
-              <NavLink to="/signup" className={({isActive})=>isActive?"text-dark border-bottom" : ''}>Sign Up</NavLink>
-            ) : (
-              <Button variant="link" className="text-dark text-decoration-none" onClick={handleLogout}>Log Out</Button>
-            )}
-          </Nav>
-          <Form className="d-flex">
-            <Form.Control
-              type="search"
-              placeholder="Search"
-              className="me-2"
-              aria-label="search"
-            />
-             <Button variant="light"><img src='/images/Vector.png'></img></Button>
-          </Form>
-          <NavLink to="/wishlist" className={style.wishlistIcon}>
-            <img src='/images/Wishlist.png'></img>
-            {wishlistQuantity > 0 && <span className={style.wishlistBadge}>{wishlistQuantity}</span>}
-          </NavLink>
-          <NavLink to="/cart" className={style.cartIcon}>
-            <img src='/images/Cart1.png'></img>
-            {cartQuantity > 0 && <span className={style.cartBadge}>{cartQuantity}</span>}
-          </NavLink>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+            <Offcanvas.Header closeButton>
+              <Offcanvas.Title id="sidebar-nav-label">Menu</Offcanvas.Title>
+            </Offcanvas.Header>
+            <Offcanvas.Body>
+              {/* Navigation Links */}
+              <Nav className="flex-column flex-lg-row align-items-start w-100 mb-3 mb-lg-0">
+                <NavLink to="/" className="nav-link" {...navLinkProps}>Home</NavLink>
+                <NavLink to="/Contact" className="nav-link" {...navLinkProps}>Contact</NavLink>
+                <NavLink to="/About" className="nav-link" {...navLinkProps}>About</NavLink>
+                {!isAuthenticated ? (
+                  <NavLink to="/signup" className="nav-link" {...navLinkProps}>Sign Up</NavLink>
+                ) : (
+                  <Button variant="text" className="p-2 text-dark" onClick={handleLogout}>Log Out</Button>
+                )}
+              </Nav>
 
-  </>
-};
+              {/* Search Form */}
+              <Form className="w-10 position-relative" >
+                <Form.Control
+                  type="search"
+                  placeholder="Search"
+                  aria-label="search"
+                />
+              </Form>
+                <Button variant="light" className="postion-" >
+                  <img src='/images/Vector.png' alt="search" />
+                </Button>
+              
+              {/* Shopping Icons */}
+              
+                <NavLink to="/wishlist" className=" me-3" {...navLinkProps}>
+                  <img src='/images/Wishlist.png' alt="wishlist" className='mt-1'/>
+                  {wishlistQuantity > 0 && (
+                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      {wishlistQuantity}
+                    </span>
+                  )}
+                </NavLink>
+                <NavLink to="/cart"  className=" me-3"{...navLinkProps}>
+                  <img src='/images/Cart1.png' alt="cart"  className='mt-1'/>
+                  {cartQuantity > 0 && (
+                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                      {cartQuantity}
+                    </span>
+                  )}
+                </NavLink>
+              
+            </Offcanvas.Body>
+          </Navbar.Offcanvas>
+        </Container>
+      </Navbar>
+    </>
+  );
+}
