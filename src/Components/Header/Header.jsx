@@ -91,22 +91,24 @@ export default function Header() {
               
               {/* Shopping Icons */}
               
-                <NavLink to="/wishlist" className=" me-3" {...navLinkProps}>
-                  <img src='/images/Wishlist.png' alt="wishlist" className='mt-1'/>
+                <NavLink to="/wishlist" className="me-3 position-relative" {...navLinkProps}>
+                 <img src='/images/Wishlist.png' alt="wishlist" className='mt-1'/>
                   {wishlistQuantity > 0 && (
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                      {wishlistQuantity}
+               <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                   {wishlistQuantity}
+                 </span>
+                 )}
+               </NavLink>
+
+                 <NavLink to="/cart" className="me-3 position-relative" {...navLinkProps}>
+                      <img src='/images/Cart1.png' alt="cart" className='mt-1'/>
+                   {cartQuantity > 0 && (
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {cartQuantity}
                     </span>
-                  )}
-                </NavLink>
-                <NavLink to="/cart"  className=" me-3"{...navLinkProps}>
-                  <img src='/images/Cart1.png' alt="cart"  className='mt-1'/>
-                  {cartQuantity > 0 && (
-                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                      {cartQuantity}
-                    </span>
-                  )}
-                </NavLink>
+                      )}
+                    </NavLink>
+
               
             </Offcanvas.Body>
           </Navbar.Offcanvas>
