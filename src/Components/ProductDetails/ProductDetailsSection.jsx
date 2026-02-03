@@ -16,7 +16,7 @@ export default function ProductDetailsSection({
   handleWishlist,
 }) {
   return (
-    <div className="col-12 col-lg-6 mt-4 mt-lg-0">
+    <div className="col-12 col-lg-6  ">
 
       {/* TITLE */}
       <h3 className="mb-2">
@@ -106,7 +106,7 @@ export default function ProductDetailsSection({
         </div>
 
         {/* Buy Now */}
-        <div className="col-12 col-sm-auto">
+        <div className="col-12 col-sm">
           <button
             className="btn btn-danger w-100"
             onClick={handleAddToCart}
@@ -137,7 +137,7 @@ export default function ProductDetailsSection({
         <div className="col-auto">
           <LocalShippingOutlinedIcon fontSize="large" />
         </div>
-        <div className="col">
+        <div className="col-auto">
           <strong>Free Delivery</strong>
           <p className="mb-0 small">
             Enter your postal code for delivery availability
@@ -149,7 +149,7 @@ export default function ProductDetailsSection({
         <div className="col-auto">
           <SyncOutlinedIcon fontSize="large" />
         </div>
-        <div className="col">
+        <div className="col-auto">
           <strong>Return Delivery</strong>
           <p className="mb-0 small">
             Free 30 Days Delivery Returns. Details

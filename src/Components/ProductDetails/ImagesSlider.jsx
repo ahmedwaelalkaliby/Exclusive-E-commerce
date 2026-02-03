@@ -1,4 +1,5 @@
 import React from "react";
+import { Image } from "react-bootstrap";
 import Carousel from "react-bootstrap/Carousel";
 
 
@@ -12,7 +13,7 @@ export default function ImagesSlider({ imageCover, images, setActiveImage }) {
           <Carousel indicators={false} interval={null}>
             {[imageCover, ...images]?.map((image, index) => (
               <Carousel.Item key={index}>
-                <img
+                <Image
                   className="d-block w-100"
                   src={image}
                   alt={`Product image ${index + 1}`}
@@ -28,7 +29,7 @@ export default function ImagesSlider({ imageCover, images, setActiveImage }) {
           className="grid col-24 gap-2 overflow-auto justify-content-start"
         >
           {images?.map((image, index) => (
-            <img
+            <Image
               key={index}
               src={image}
               alt={`Thumbnail ${index + 1}`}

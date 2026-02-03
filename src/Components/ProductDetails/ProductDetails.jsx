@@ -27,7 +27,7 @@ export default function ProductDetails() {
   const [counter, setCounter] = useState(1);
   const [activeImage, setActiveImage] = useState(null);
 
-  /* ================= FETCH PRODUCT ================= */
+
 
   const fetchProduct = async () => {
     try {
