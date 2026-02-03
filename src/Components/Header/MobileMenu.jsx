@@ -17,18 +17,18 @@ export default function MobileMenu({
       </NavLink>
 
       <NavLink
+        to="/Products"
+        className="nav-link py-3 w-100 border-bottom"
+      >
+        Products
+        </NavLink>
+          
+      <NavLink
         to="/Contact"
         className="nav-link py-3 w-100 border-bottom"
       >
         Contact
     </NavLink>
-
-      <NavLink
-        to="/Products"
-        className="nav-link py-3 w-100 border-bottom"
-      >
-        Products
-      </NavLink>
 
       <NavLink
         to="/About"
