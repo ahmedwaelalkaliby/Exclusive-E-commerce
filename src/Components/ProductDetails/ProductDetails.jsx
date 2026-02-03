@@ -181,21 +181,37 @@ export default function ProductDetails() {
       </div>
 
       {/* RELATED SECTION */}
-      <div className="d-flex align-items-center gap-3 mt-5">
-        <div
-          style={{
-            width: "20px",
-            height: "40px",
-            backgroundColor: "rgba(219, 68, 68, 1)",
-            borderRadius: "5px",
-          }}
-        />
-        <h4 style={{ color: "rgba(219, 68, 68, 1)" }}>
-          Related Item
-        </h4>
-      </div>
+  <div style={{ position: "relative", marginTop: "1.25rem", height: "40px" , margin: "40px 0" }}>
+  <div
+    style={{
+      position: "absolute",
+      left: 0, 
+      top: 0,
+      width: "20px",
+      height: "40px",
+      backgroundColor: "rgba(219, 68, 68, 1)",
+      borderRadius: "5px",
+    }}
+  />
+ 
+  <h4
+    style={{
+      position: "absolute",
+      left: "30px", 
+      top: 0,
+      height: "100%",
+      margin: 0,
+      display: "flex",
+      alignItems: "center",
+      color: "rgba(219, 68, 68, 1)",
+    }}
+  >
+    Related Items
+  </h4>
+</div>
 
-      <Row xs={1} sm={2} md={3} lg={4} className="g-4 mt-3">
+
+      <Row xs={1} sm={2} md={3} lg={4} className="g-4">
         {relatedProducts?.slice(0, 8).map((product) => (
           <ProductCard
             key={product.id}

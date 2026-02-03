@@ -16,12 +16,15 @@ export default function ProductDetailsSection({
   handleWishlist,
 }) {
   return (
-    <div className="col-6"> {/* always 50% width */}
+    <div className="col-12 col-lg-6 mt-4 mt-lg-0">
 
-      <h3>{productDetails.title.split(" ").slice(0, 2).join(" ")}</h3>
+      {/* TITLE */}
+      <h3 className="mb-2">
+        {productDetails.title.split(" ").slice(0, 3).join(" ")}
+      </h3>
 
-      {/* Rating + Stock */}
-      <div className="row align-items-center mb-2">
+      {/* RATING + STOCK */}
+      <div className="row align-items-center mb-3">
         <div className="col-auto">
           <Rating value={productDetails.ratingsAverage} readOnly />
         </div>
@@ -34,35 +37,37 @@ export default function ProductDetailsSection({
         </div>
       </div>
 
-      <h4 className="my-3">
-        {(productDetails.price * 0.9).toFixed(2)} $
+      {/* PRICE */}
+      <h4 className="mb-3 text-danger">
+        ${(productDetails.price * 0.9).toFixed(2)}
       </h4>
 
-      <p style={{ width: "373px" }}>
+      {/* DESCRIPTION */}
+      <p className="text-muted">
         {productDetails.description}
       </p>
 
       <hr />
 
       {/* SIZE */}
-      <div className="row align-items-center mb-3">
-        <div className="col-auto">
-          <span>Size:</span>
+      <div className="row align-items-center mb-4 g-2">
+        <div className="col-12 col-sm-auto">
+          <strong>Size:</strong>
         </div>
 
         {["S", "M", "L", "XL", "XXL"].map((size) => (
           <div key={size} className="col-auto">
             <button
               onClick={() => handleSizeSelect(size)}
+              className="btn btn-sm"
               style={{
-                width: "32px",
-                height: "32px",
-                borderRadius: "5px",
-                border: "1px grey solid",
-                backgroundColor:
+                width: "40px",
+                border:
                   activeSize === size
-                    ? "rgba(219, 68, 68, 1)"
-                    : "white",
+                    ? "1px solid #db4444"
+                    : "1px solid #ccc",
+                backgroundColor:
+                  activeSize === size ? "#db4444" : "white",
                 color: activeSize === size ? "white" : "black",
               }}
             >
@@ -73,17 +78,12 @@ export default function ProductDetailsSection({
       </div>
 
       {/* COUNTER + BUTTONS */}
-      <div className="row align-items-center mb-4">
+      <div className="row align-items-center g-2 mb-4">
 
         {/* Counter */}
         <div className="col-auto">
           <button
-            style={{
-              width: "44px",
-              height: "44px",
-              border: "1px grey solid",
-              background: "white"
-            }}
+            className="btn btn-outline-secondary"
             onClick={() =>
               setCounter((prev) => Math.max(prev - 1, 1))
             }
@@ -93,34 +93,22 @@ export default function ProductDetailsSection({
         </div>
 
         <div className="col-auto">
-          <span>{counter}</span>
+          <span className="px-2">{counter}</span>
         </div>
 
         <div className="col-auto">
           <button
-            style={{
-              width: "44px",
-              height: "44px",
-              border: "1px grey solid",
-              background: "rgba(219, 68, 68, 1)",
-              color: "white"
-            }}
+            className="btn btn-outline-danger"
             onClick={() => setCounter((prev) => prev + 1)}
           >
             +
           </button>
         </div>
 
-        {/* Buy Button */}
-        <div className="col-auto">
+        {/* Buy Now */}
+        <div className="col-12 col-sm-auto">
           <button
-            style={{
-              width: "165px",
-              height: "44px",
-              background: "rgba(219, 68, 68, 1)",
-              color: "white",
-              border: "1px grey solid"
-            }}
+            className="btn btn-danger w-100"
             onClick={handleAddToCart}
           >
             Buy Now
@@ -130,12 +118,7 @@ export default function ProductDetailsSection({
         {/* Wishlist */}
         <div className="col-auto">
           <button
-            style={{
-              width: "44px",
-              height: "44px",
-              border: "1px grey solid",
-              background: "white"
-            }}
+            className="btn btn-outline-secondary"
             onClick={handleWishlist}
           >
             {wishlistItems.some(
@@ -147,41 +130,30 @@ export default function ProductDetailsSection({
             )}
           </button>
         </div>
-
       </div>
 
       {/* DELIVERY BOXES */}
-      <div
-        className="row border p-3"
-        style={{
-          width: "400px",
-          height: "110px",
-          borderRadius: "5px 5px 0px 0px"
-        }}
-      >
+      <div className="row border rounded-top p-3">
         <div className="col-auto">
           <LocalShippingOutlinedIcon fontSize="large" />
         </div>
         <div className="col">
-          Free Delivery <br />
-          Enter your postal code for Delivery Availability
+          <strong>Free Delivery</strong>
+          <p className="mb-0 small">
+            Enter your postal code for delivery availability
+          </p>
         </div>
       </div>
 
-      <div
-        className="row border p-3"
-        style={{
-          width: "400px",
-          height: "110px",
-          borderRadius: "0px 0px 5px 5px"
-        }}
-      >
+      <div className="row border border-top-0 rounded-bottom p-3">
         <div className="col-auto">
           <SyncOutlinedIcon fontSize="large" />
         </div>
         <div className="col">
-          Return Delivery <br />
-          Free 30 Days Delivery Returns. Details
+          <strong>Return Delivery</strong>
+          <p className="mb-0 small">
+            Free 30 Days Delivery Returns. Details
+          </p>
         </div>
       </div>
 

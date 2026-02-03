@@ -13,6 +13,16 @@
     width: 100%;
   }
 }
+@media(min-width: 992px) {
+  .d-flex.flex-column {
+    flex-direction: row-reverse; 
+    align-items: flex-start;
+  }
+  .d-flex.flex-row {
+    flex-direction: column; 
+  }
+}
+
 
 .product-details-container {
   display: flex;
