@@ -1,5 +1,8 @@
 import React from 'react'
 import './About.css';
+import { Image } from 'react-bootstrap';
+import { FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+
 export default function About() {
   return <>
     {/* head of badge */}
@@ -21,7 +24,7 @@ export default function About() {
         
       </div>
       <div className='col-6 justify-content-center '>
-        <img className='w-100 align-self-flex-end' src='/images/portrait-two-african-femal.png'/>
+        <Image className='w-100 align-self-flex-end' src='/images/portrait-two-african-femal.png'/>
       </div>
     </div>
 
@@ -37,7 +40,7 @@ export default function About() {
       key={index}
       className='box d-flex flex-column justify-content-center align-items-center gap-3 border border-1 rounded-3 p-3'
     >
-      <img src={box.imgSrc} alt={`Service ${index + 1}`} style={{ width: 80, height: 80 }} />
+      <Image src={box.imgSrc} alt={`Service ${index + 1}`} style={{ width: 80, height: 80 }} />
       <h1>{box.count}</h1>
       <p>{box.text}</p>
     </div>
@@ -51,11 +54,11 @@ export default function About() {
         <div>
           <h1>Tom Cruise</h1>
           <p>Founder & Chairman</p>
-          <div>
-            <img src="/images/Icon-Twitter.png" style={{ width: 24, height: 24 }} />
-            <img src="/images/Icon-instagram.png" style={{ width: 24, height: 24 }} />
-            <img src="/images/Icon-Linkedin.png" style={{width:24, height:24}} />
-          </div>
+          <div className="d-flex gap-3 mt-2">
+  <FaTwitter size={20} style={{ cursor: "pointer" }} />
+  <FaInstagram size={20} style={{ cursor: "pointer" }} />
+  <FaLinkedinIn size={20} style={{ cursor: "pointer" }} />
+</div>
         </div> 
       </div>
       
@@ -64,11 +67,11 @@ export default function About() {
         <div>
           <h1>Emma Watson</h1>
           <p>Managing Director</p>
-          <div>
-            <img src="/images/Icon-Twitter.png" style={{ width: 24, height: 24 }} />
-            <img src="/images/Icon-instagram.png" style={{ width: 24, height: 24 }} />
-            <img src="/images/Icon-Linkedin.png" style={{width:24, height:24}} />
-          </div>
+          <div className="d-flex gap-3 mt-2">
+  <FaTwitter size={20} style={{ cursor: "pointer" }} />
+  <FaInstagram size={20} style={{ cursor: "pointer" }} />
+  <FaLinkedinIn size={20} style={{ cursor: "pointer" }} />
+</div>
         </div> 
       </div>
       
@@ -77,11 +80,11 @@ export default function About() {
         <div>
           <h1>Will Smith</h1>
           <p>Product Designer</p>
-          <div>
-            <img src="/images/Icon-Twitter.png" style={{ width: 24, height: 24 }} />
-            <img src="/images/Icon-instagram.png" style={{ width: 24, height: 24 }} />
-            <img src="/images/Icon-Linkedin.png" style={{width:24, height:24}} />
-          </div>
+         <div className="d-flex gap-3 mt-2">
+  <FaTwitter size={20} style={{ cursor: "pointer" }} />
+  <FaInstagram size={20} style={{ cursor: "pointer" }} />
+  <FaLinkedinIn size={20} style={{ cursor: "pointer" }} />
+</div>
         </div> 
       </div>
        
