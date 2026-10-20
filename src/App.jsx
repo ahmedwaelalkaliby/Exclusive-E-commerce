@@ -8,6 +8,7 @@ import About from './pages/About/About';
 import Home from './pages/Home/Home';
 import Login from './pages/SignUp/Login';
 import Signup from './pages/SignUp/signup';
+import Products from './pages/Products/Products';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Badge from "react-bootstrap/Badge";
 import Rater from "react-rater";
@@ -28,6 +29,10 @@ function App() {
         {
           index: true,
           element: <Home />,
+        },
+        {
+          path: "products",
+          element: <Products />,
         },
         {
           path: "contact",
