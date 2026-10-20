@@ -1,23 +1,11 @@
 import React from 'react';
 import { Row, Spinner, Button } from "react-bootstrap";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-
 import ProductCard from '../../Components/Product/ProductCard';
-
-
-const fetchProducts = async () => {
-  const { data } = await axios.get("https://ecommerce.routemisr.com/api/v1/products");
-  return data.data;
-};
+import { useGetProductsQuery } from '../../store/api';
 
 export default function Products() {
 
-  const { data: products, isLoading, isError, error } = useQuery({
-    queryKey: ["products"],
-    queryFn: fetchProducts,
-    staleTime: 5000,
-  });
+  const { data: products, isLoading, isError, refetch } = useGetProductsQuery();
 
   if (isLoading) return (
     <div className="d-flex justify-content-center py-5">
@@ -27,8 +15,8 @@ export default function Products() {
 
   if (isError) return (
     <div className="text-center py-5">
-      <p className="text-danger">Error: {error.message}</p>
-      <Button onClick={() => window.location.reload()}>Retry</Button>
+      <p className="text-danger">Unable to load products.</p>
+      <Button onClick={refetch}>Retry</Button>
     </div>
   );
 

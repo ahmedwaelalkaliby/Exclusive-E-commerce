@@ -20,6 +20,8 @@ export default function Login() {
       const data = await login(formvalues).unwrap();
       if (data.message === 'success') {
         dispatch(setCredentials({ user: data.user, token: data.token }));
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
         navigate('/');
       } else {
         toast.error(data.message || 'An error occurred');

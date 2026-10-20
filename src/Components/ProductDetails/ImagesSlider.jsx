@@ -3,7 +3,8 @@ import { Image } from "react-bootstrap";
 import Carousel from "react-bootstrap/Carousel";
 
 
-export default function ImagesSlider({ imageCover, images, setActiveImage }) {
+export default function ImagesSlider({ imageCover, images, activeImage, setActiveImage }) {
+  const displayedImages = [imageCover, ...images];
   return (
     <div className="col-12 col-lg-6">
       <div className="d-flex flex-column gap-3">
@@ -11,11 +12,11 @@ export default function ImagesSlider({ imageCover, images, setActiveImage }) {
         {/* Carousel */}
         <div className="flex-grow-1">
           <Carousel indicators={false} interval={null}>
-            {[imageCover, ...images]?.map((image, index) => (
+            {displayedImages.map((image, index) => (
               <Carousel.Item key={index}>
                 <Image
                   className="d-block w-100"
-                  src={image}
+                  src={activeImage || image}
                   alt={`Product image ${index + 1}`}
                   style={{ maxHeight: "500px", objectFit: "cover" }}
                 />

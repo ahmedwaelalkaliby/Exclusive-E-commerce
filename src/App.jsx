@@ -10,8 +10,6 @@ import Login from './pages/SignUp/Login';
 import Signup from './pages/SignUp/signup';
 import Products from './pages/Products/Products';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Badge from "react-bootstrap/Badge";
-import Rater from "react-rater";
 import "react-rater/lib/react-rater.css"; 
 import ProductDetails from './Components/ProductDetails/ProductDetails';
 import Cart from './pages/Cart/Cart';
@@ -69,8 +67,8 @@ function App() {
   return (
     <>
       <SearchableDropdown />
-      {/* <RouterProvider router={routes} /> */}
-      {/* <ToastContainer
+      <RouterProvider router={routes} />
+      <ToastContainer
             position="top-right"
             autoClose={3000}
             hideProgressBar={false}
@@ -81,7 +79,7 @@ function App() {
             draggable
             pauseOnHover
             theme="light"
-      /> */}
+      />
     </>
   )
 }

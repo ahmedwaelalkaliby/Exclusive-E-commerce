@@ -19,7 +19,7 @@ export default function Sidebar() {
   };
 
  return (
-  <div className="bg-white text-black d-flex flex-column flex-lg-row ms-2 mb-5 w-100">
+  <div className={`${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'} d-flex flex-column flex-lg-row ms-2 mb-5 w-100`}>
 
     {/* Categories */}
       <div className="d-none d-md-flex flex-row flex-wrap flex-lg-column gap-3 col-md-3 mt-3">

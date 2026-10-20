@@ -6,14 +6,13 @@ import { AiOutlineHeart, AiFillHeart, AiOutlineShoppingCart } from "react-icons/
 import { useDispatch, useSelector } from 'react-redux';
 import { cartActions } from '../../store/cartSlice';
 import { wishlistActions } from '../../store/wishlistSlice';
-import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
 import './Product.css';
 
 export default function ProductCard({ product }) {
   const dispatch = useDispatch();
   const wishlistItems = useSelector((state) => state.wishlist.items);
-  const { requireAuth } = useAuth();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const isInWishlist = wishlistItems.some(item => item.id === product.id);
 
@@ -25,7 +24,7 @@ export default function ProductCard({ product }) {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!requireAuth()) return;
+    if (!isAuthenticated) return toast.error('Please login to continue!');
 
     dispatch(cartActions.addToCart({
       id: product.id,
@@ -43,7 +42,7 @@ export default function ProductCard({ product }) {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!requireAuth()) return;
+    if (!isAuthenticated) return toast.error('Please login to continue!');
 
     if (isInWishlist) {
       dispatch(wishlistActions.removeFromWishlist(product.id));
