@@ -1,91 +1,58 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import TextField from '@mui/material/TextField';
-import './Login.css'; // Import the new CSS file
-import { toast } from 'react-toastify';
+import { toast } from '../../lib/toast';
 import { useAppDispatch } from '../../store/hooks';
 import { useLoginMutation } from '../../store/api';
 import { setCredentials } from '../../store/authSlice';
 import { getApiErrorMessage } from '../../lib/apiError';
 import type { AuthCredentials } from '../../types';
 
+const inputClass = 'w-full border-b border-slate-300 bg-transparent py-3 text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-red-600';
+
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [login, { isLoading }] = useLoginMutation();
 
-  async function handleRegister(formvalues: AuthCredentials) {
+  async function handleLogin(values: AuthCredentials) {
     try {
-      const data = await login(formvalues).unwrap();
+      const data = await login(values).unwrap();
       if (data.message === 'success') {
         dispatch(setCredentials({ user: data.user, token: data.token }));
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         navigate('/');
-      } else {
-        toast.error(data.message || 'An error occurred');
-      }
+      } else toast.error(data.message || 'An error occurred');
     } catch (error: unknown) {
       toast.error(getApiErrorMessage(error));
     }
   }
 
   const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
+    initialValues: { email: '', password: '' },
     validationSchema: Yup.object({
       email: Yup.string().email('Invalid email address').required('Email is required'),
       password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
     }),
-    onSubmit: handleRegister,
+    onSubmit: handleLogin,
   });
 
   return (
-     <div className="row align-items-center justify-content-center gap-5"> 
-      <div className="col-12 col-md-6 mb-4">
-          <img
-            src="/images/phone1.png"
-            className="img-fluid login-image"
-            alt="Signup"
-          />
-        </div>
-      <div className="col-4 d-flex flex-column gap-3 col-3 login-form">
-        <div>
-          <h1>Log in to Exclusive</h1>
-          <p>Enter your details below</p>
-        </div>
-        <form className="d-flex flex-column gap-4 col-9" onSubmit={formik.handleSubmit}>
-          <TextField
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            name="email"
-            type="email"
-            label="Email"
-            variant="standard"
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
-          <TextField
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            name="password"
-            type="password"
-            label="Password"
-            variant="standard"
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-          />
-          <button type="submit" className="btn btn-danger text-white">
-            {isLoading ? <div className="spinner-border text-light" role="status"></div> : 'Sign In'}
-          </button>
-          <a href="#forgot-password" className="text-danger">Forget Password?</a>
+    <main className="mx-auto grid max-w-5xl items-center gap-10 py-10 md:grid-cols-2">
+      <img src="/images/phone1.png" className="mx-auto w-full max-w-md rounded-xl object-cover" alt="Shop from your phone" />
+      <section className="mx-auto w-full max-w-md">
+        <h1 className="text-3xl font-semibold text-slate-950">Log in to Exclusive</h1>
+        <p className="mt-2 text-slate-600">Enter your details below</p>
+        <form className="mt-8 space-y-6" onSubmit={formik.handleSubmit}>
+          <div><input className={inputClass} value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} name="email" type="email" placeholder="Email" aria-label="Email" />{formik.touched.email && formik.errors.email && <p className="mt-1 text-sm text-red-600">{formik.errors.email}</p>}</div>
+          <div><input className={inputClass} value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} name="password" type="password" placeholder="Password" aria-label="Password" />{formik.touched.password && formik.errors.password && <p className="mt-1 text-sm text-red-600">{formik.errors.password}</p>}</div>
+          <div className="flex items-center justify-between gap-4">
+            <button type="submit" disabled={isLoading} className="rounded-lg bg-red-600 px-7 py-3 font-medium text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60">{isLoading ? 'Signing in…' : 'Sign In'}</button>
+            <a href="#forgot-password" className="text-sm text-red-600 hover:underline">Forgot password?</a>
+          </div>
         </form>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

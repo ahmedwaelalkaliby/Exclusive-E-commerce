@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import type { MouseEvent } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, Row } from 'react-bootstrap';
-import Spinner from 'react-bootstrap/Spinner';
-import { toast } from 'react-toastify';
+import { toast } from '../../lib/toast';
 import { cartActions } from '../../store/cartSlice';
 import { wishlistActions } from '../../store/wishlistSlice';
 import { useGetProductQuery, useGetProductsQuery } from '../../store/api';
@@ -24,8 +22,8 @@ export default function ProductDetails() {
   const [counter, setCounter] = useState(1);
   const [activeImage, setActiveImage] = useState<string | null>(null);
 
-  if (isLoading) return <div className="d-flex justify-content-center py-5"><Spinner animation="border" variant="danger" /></div>;
-  if (isError) return <div className="container text-center py-5"><div className="alert alert-danger">Unable to load this product.<Button className="ms-3" onClick={refetch}>Retry</Button></div></div>;
+  if (isLoading) return <div className="grid min-h-72 place-items-center"><div className="h-12 w-12 animate-spin rounded-full border-4 border-slate-200 border-t-red-600" role="status" aria-label="Loading product" /></div>;
+  if (isError) return <div className="py-16 text-center"><p className="mb-4 text-red-600">Unable to load this product.</p><button type="button" className="rounded bg-slate-900 px-5 py-2 text-white hover:bg-red-600" onClick={refetch}>Retry</button></div>;
   if (!productDetails) return null;
 
   const handleSizeSelect = (size: string) => {
@@ -69,8 +67,8 @@ export default function ProductDetails() {
   };
 
   return (
-    <div className="container my-5">
-      <div className="row g-5">
+    <div className="mx-auto my-8 max-w-7xl">
+      <div className="grid gap-8 lg:grid-cols-2">
         <ImagesSlider imageCover={productDetails.imageCover} images={productDetails.images || []} activeImage={activeImage} setActiveImage={setActiveImage} />
         <ProductDetailsSection
           productDetails={productDetails}
@@ -83,10 +81,10 @@ export default function ProductDetails() {
           handleWishlist={handleWishlist}
         />
       </div>
-      <h4 className="text-danger my-4">Related Items</h4>
-      <Row xs={1} sm={2} md={3} lg={4} className="g-4">
+      <h2 className="my-8 text-2xl font-bold text-slate-950">Related Items</h2>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {relatedProducts.slice(0, 8).map((product) => <ProductCard key={product.id} product={product} />)}
-      </Row>
+      </div>
     </div>
   );
 }

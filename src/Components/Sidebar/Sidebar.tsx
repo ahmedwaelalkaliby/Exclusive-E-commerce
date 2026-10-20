@@ -1,54 +1,30 @@
+import { useState } from 'react';
+import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import { useAppSelector } from '../../store/hooks';
-import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import Image from 'react-bootstrap/Image';
+
+const categories = ['Mens Fashion', 'Womens Fashion', 'Electronics', 'Home Furniture', 'Medicine', 'Sports Wear', 'Games', 'Baby & Toys', 'Health & Beauty'];
+const slides = ['/images/Frame.png', '/images/Frame.png', '/images/Frame.png'];
 
 export default function Sidebar() {
   const theme = useAppSelector((state) => state.theme);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const dark = theme === 'dark';
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000
-  };
+  const changeSlide = (direction: number) => setActiveSlide((current) => (current + direction + slides.length) % slides.length);
 
- return (
-  <div className={`${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'} d-flex flex-column flex-lg-row ms-2 mb-5 w-100`}>
-
-    {/* Categories */}
-      <div className="d-none d-md-flex flex-row flex-wrap flex-lg-column gap-3 col-md-3 mt-3">
-      <h6>Mens Fashion</h6>
-      <h6>Womens Fashion</h6>
-      <h6>Electronics</h6>
-      <h6>Home Furniture</h6>
-      <h6>Medicine</h6>
-      <h6>Sports Wear</h6>
-      <h6>Games</h6>
-      <h6>Baby & Toys</h6>
-      <h6>Health & Beauty</h6>
-    </div>
-
-    {/* Slider */}
-    <div className="col-12 col-lg-9">
-      <Slider {...settings}>
-        <div>
-          <Image src="/images/Frame.png" alt="Slide 1" className="w-100" />
+  return (
+    <section className={`mb-10 grid gap-6 lg:grid-cols-[220px_1fr] ${dark ? 'text-white' : 'text-slate-900'}`}>
+      <ul className="hidden flex-wrap gap-3 md:flex lg:flex-col lg:gap-4">
+        {categories.map((category) => <li key={category} className="text-sm">{category}</li>)}
+      </ul>
+      <div className="relative overflow-hidden rounded-lg bg-slate-100">
+        <img src={slides[activeSlide]} alt={`Promotion ${activeSlide + 1}`} className="h-auto w-full object-cover" />
+        <button type="button" onClick={() => changeSlide(-1)} aria-label="Previous promotion" className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-slate-900 shadow hover:bg-white"><AiOutlineLeft /></button>
+        <button type="button" onClick={() => changeSlide(1)} aria-label="Next promotion" className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-white/90 p-2 text-slate-900 shadow hover:bg-white"><AiOutlineRight /></button>
+        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-2">
+          {slides.map((slide, index) => <button key={`${slide}-${index}`} type="button" aria-label={`Show promotion ${index + 1}`} onClick={() => setActiveSlide(index)} className={`h-2.5 w-2.5 rounded-full ${activeSlide === index ? 'bg-red-600' : 'bg-white/80'}`} />)}
         </div>
-        <div>
-          <Image src="/images/Frame.png" alt="Slide 2" className="w-100" />
-        </div>
-        <div>
-          <Image src="/images/Frame.png" alt="Slide 3" className="w-100" />
-        </div>
-      </Slider>
-    </div>
-
-  </div>
-);
-
+      </div>
+    </section>
+  );
 }

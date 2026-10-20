@@ -1,72 +1,17 @@
 import Sidebar from '../../Components/Sidebar/Sidebar';
 import Products from '../Products/Products';
-import { FaTruck, FaHeadset, FaShieldAlt } from 'react-icons/fa';
+import { FaHeadset, FaShieldAlt, FaTruck } from 'react-icons/fa';
 
 export default function Home() {
-  return <>
-  <div className='container-fluid'>
-      <Sidebar/>
+  return (
+    <div className="space-y-14 py-4">
+      <Sidebar />
+      <Products />
+      <section className="grid grid-cols-1 gap-8 py-8 text-center sm:grid-cols-3">
+        <div className="flex flex-col items-center gap-3"><FaTruck size={52} /><h2 className="font-bold">FREE AND FAST DELIVERY</h2><p className="text-sm text-slate-600">Free delivery for all orders over $140</p></div>
+        <div className="flex flex-col items-center gap-3"><FaHeadset size={52} /><h2 className="font-bold">24/7 CUSTOMER SERVICE</h2><p className="text-sm text-slate-600">Friendly support whenever you need it</p></div>
+        <div className="flex flex-col items-center gap-3"><FaShieldAlt size={52} /><h2 className="font-bold">MONEY BACK GUARANTEE</h2><p className="text-sm text-slate-600">We return your money within 30 days</p></div>
+      </section>
     </div>
-    
-    {/* categories */}
-  {/* <div style={{ position: "relative", marginTop: "1.25rem", height: "40px" , margin: "40px 0" }}>
-  <div
-    style={{
-      position: "absolute",
-      left: 0, 
-      top: 0,
-      width: "20px",
-      height: "40px",
-      backgroundColor: "rgba(219, 68, 68, 1)",
-      borderRadius: "5px",
-    }}
-  />
- 
-  <h4
-    style={{
-      position: "absolute",
-      left: "30px", 
-      top: 0,
-      height: "100%",
-      margin: 0,
-      display: "flex",
-      alignItems: "center",
-      color: "rgba(219, 68, 68, 1)",
-    }}
-  >
-    Categories
-  </h4>
-    </div> */}
-    
-
-
-
-
-    <Products />
-
-
-
-    
-    {/* lastdiv */}
-    <div className='d-flex w-80 justify-content-center gap-5 mt-5'>
-      <div className='d-flex flex-column justify-content-center align-items-center gap-3'>
-        <FaTruck size={64} aria-hidden="true" />
-        <h6>FREE AND FAST DELIVERY</h6>
-        <p>Free delivery for all orders over $140</p>
-      </div>
-
-      <div className='d-flex flex-column justify-content-center align-items-center gap-3'>
-        <FaHeadset size={64} aria-hidden="true" />
-        <h6>24/7 CUSTOMER SERVICE</h6>
-        <p>24/7 CUSTOMER SERVICE</p>
-      </div>
-
-      <div className='d-flex flex-column justify-content-center align-items-center gap-3'>
-        <FaShieldAlt size={64} aria-hidden="true" />
-        <h6>MONEY BACK GUARANTEE</h6>
-        <p>We reurn money within 30 days</p>
-      </div>
-      
-    </div>
-  </>
+  );
 }

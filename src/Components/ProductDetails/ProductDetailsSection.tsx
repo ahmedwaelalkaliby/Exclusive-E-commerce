@@ -1,8 +1,6 @@
-import Rating from "@mui/material/Rating";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
-import SyncOutlinedIcon from "@mui/icons-material/SyncOutlined";
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import { FaTruck, FaSyncAlt } from 'react-icons/fa';
+import RatingStars from '../RatingStars';
 import type { Product, WishlistItem } from '../../types';
 import type { Dispatch, MouseEvent, SetStateAction } from 'react';
 
@@ -17,158 +15,38 @@ interface ProductDetailsSectionProps {
   handleWishlist: () => void;
 }
 
-export default function ProductDetailsSection({
-  productDetails,
-  activeSize,
-  counter,
-  wishlistItems,
-  handleSizeSelect,
-  setCounter,
-  handleAddToCart,
-  handleWishlist,
-}: ProductDetailsSectionProps) {
+export default function ProductDetailsSection({ productDetails, activeSize, counter, wishlistItems, handleSizeSelect, setCounter, handleAddToCart, handleWishlist }: ProductDetailsSectionProps) {
+  const isInWishlist = wishlistItems.some((item) => item.id === productDetails.id);
+
   return (
-    <div className="col-12 col-lg-6  ">
+    <div className="flex flex-col gap-5 lg:col-span-1">
+      <div>
+        <h1 className="text-2xl font-semibold text-slate-950 sm:text-3xl">{productDetails.title}</h1>
+        <div className="mt-3 flex items-center gap-3 text-sm text-slate-500"><RatingStars value={productDetails.ratingsAverage ?? 0} /><span>({productDetails.ratingsQuantity ?? 0} reviews)</span><span className="text-slate-300">|</span><span className={(productDetails.quantity ?? 0) > 0 ? 'text-emerald-600' : 'text-red-600'}>{(productDetails.quantity ?? 0) > 0 ? 'In stock' : 'Out of stock'}</span></div>
+      </div>
+      <p className="text-2xl font-semibold text-slate-950">${(productDetails.price * 0.9).toFixed(2)}</p>
+      <p className="leading-7 text-slate-600">{productDetails.description}</p>
+      <hr className="border-slate-200" />
 
-      {/* TITLE */}
-      <h3 className="mb-2">
-        {productDetails.title.split(" ").slice(0, 3).join(" ")}
-      </h3>
-
-      {/* RATING + STOCK */}
-      <div className="row align-items-center mb-3">
-        <div className="col-auto">
-          <Rating value={productDetails.ratingsAverage} readOnly />
-        </div>
-        <div className="col-auto">
-          {(productDetails.quantity ?? 0) > 0 ? (
-            <span className="text-success">In Stock</span>
-          ) : (
-            <span className="text-danger">Out of Stock</span>
-          )}
-        </div>
+      <div className="flex flex-wrap items-center gap-3">
+        <span className="mr-1 font-medium text-slate-900">Size:</span>
+        {['S', 'M', 'L', 'XL', 'XXL'].map((size) => <button key={size} type="button" onClick={() => handleSizeSelect(size)} className={`h-10 min-w-10 rounded border px-2 text-sm font-medium transition ${activeSize === size ? 'border-red-600 bg-red-600 text-white' : 'border-slate-300 text-slate-800 hover:border-red-600'}`}>{size}</button>)}
       </div>
 
-      {/* PRICE */}
-      <h4 className="mb-3 text-danger">
-        ${(productDetails.price * 0.9).toFixed(2)}
-      </h4>
-
-      {/* DESCRIPTION */}
-      <p className="text-muted">
-        {productDetails.description}
-      </p>
-
-      <hr />
-
-      {/* SIZE */}
-      <div className="row align-items-center mb-4 g-2">
-        <div className="col-12 col-sm-auto">
-          <strong>Size:</strong>
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="flex items-center rounded border border-slate-300">
+          <button type="button" aria-label="Decrease quantity" onClick={() => setCounter((previous) => Math.max(previous - 1, 1))} className="px-4 py-2 text-lg hover:bg-slate-100">−</button>
+          <span className="min-w-10 text-center">{counter}</span>
+          <button type="button" aria-label="Increase quantity" onClick={() => setCounter((previous) => previous + 1)} className="px-4 py-2 text-lg hover:bg-slate-100">+</button>
         </div>
-
-        {["S", "M", "L", "XL", "XXL"].map((size) => (
-          <div key={size} className="col-auto">
-            <button
-              onClick={() => handleSizeSelect(size)}
-              className="btn btn-sm"
-              style={{
-                width: "40px",
-                border:
-                  activeSize === size
-                    ? "1px solid #db4444"
-                    : "1px solid #ccc",
-                backgroundColor:
-                  activeSize === size ? "#db4444" : "white",
-                color: activeSize === size ? "white" : "black",
-              }}
-            >
-              {size}
-            </button>
-          </div>
-        ))}
+        <button type="button" onClick={handleAddToCart} className="flex-1 rounded bg-red-600 px-6 py-3 font-semibold text-white hover:bg-red-700 sm:flex-none">Add to cart</button>
+        <button type="button" onClick={handleWishlist} aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'} className="rounded border border-slate-300 p-3 text-xl text-slate-800 hover:border-red-600 hover:text-red-600">{isInWishlist ? <AiFillHeart /> : <AiOutlineHeart />}</button>
       </div>
 
-      {/* COUNTER + BUTTONS */}
-      <div className="row align-items-center g-2 mb-4">
-
-        {/* Counter */}
-        <div className="col-auto">
-          <button
-            className="btn btn-outline-secondary"
-            onClick={() =>
-              setCounter((prev) => Math.max(prev - 1, 1))
-            }
-          >
-            -
-          </button>
-        </div>
-
-        <div className="col-auto">
-          <span className="px-2">{counter}</span>
-        </div>
-
-        <div className="col-auto">
-          <button
-            className="btn btn-outline-danger"
-            onClick={() => setCounter((prev) => prev + 1)}
-          >
-            +
-          </button>
-        </div>
-
-        {/* Buy Now */}
-        <div className="col-12 col-sm">
-          <button
-            className="btn btn-danger w-100"
-            onClick={handleAddToCart}
-          >
-            Buy Now
-          </button>
-        </div>
-
-        {/* Wishlist */}
-        <div className="col-auto">
-          <button
-            className="btn btn-outline-secondary"
-            onClick={handleWishlist}
-          >
-            {wishlistItems.some(
-              (item) => item.id === productDetails.id
-            ) ? (
-              <FavoriteIcon style={{ color: "red" }} />
-            ) : (
-              <FavoriteBorderIcon />
-            )}
-          </button>
-        </div>
+      <div className="divide-y divide-slate-200 rounded-lg border border-slate-200">
+        <div className="flex gap-4 p-4"><FaTruck size={24} className="mt-1 shrink-0" /><div><h2 className="font-semibold">Free Delivery</h2><p className="mt-1 text-sm text-slate-600">Enter your postal code for delivery availability.</p></div></div>
+        <div className="flex gap-4 p-4"><FaSyncAlt size={24} className="mt-1 shrink-0" /><div><h2 className="font-semibold">Return Delivery</h2><p className="mt-1 text-sm text-slate-600">Free 30 day returns. Details</p></div></div>
       </div>
-
-      {/* DELIVERY BOXES */}
-      <div className="row border rounded-top p-3">
-        <div className="col-auto">
-          <LocalShippingOutlinedIcon fontSize="large" />
-        </div>
-        <div className="col-auto">
-          <strong>Free Delivery</strong>
-          <p className="mb-0 small">
-            Enter your postal code for delivery availability
-          </p>
-        </div>
-      </div>
-
-      <div className="row border border-top-0 rounded-bottom p-3">
-        <div className="col-auto">
-          <SyncOutlinedIcon fontSize="large" />
-        </div>
-        <div className="col-auto">
-          <strong>Return Delivery</strong>
-          <p className="mb-0 small">
-            Free 30 Days Delivery Returns. Details
-          </p>
-        </div>
-      </div>
-
     </div>
   );
 }

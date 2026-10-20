@@ -4,9 +4,9 @@ import Footer from "../Footer/Footer"
 export default function Layout() {
     return<>
      
-    <div className="d-flex flex-column vh-100 overflow-x-hidden">
+    <div className="flex min-h-screen flex-col overflow-x-hidden bg-white">
     <Header/>
-      <main className='container-fluid flex-grow-1 p-3'>
+      <main className='mx-auto w-full max-w-7xl flex-1 px-4 py-6 lg:px-8'>
         <Outlet/>
       </main>
       <Footer />

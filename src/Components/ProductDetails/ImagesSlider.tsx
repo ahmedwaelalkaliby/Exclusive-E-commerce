@@ -1,6 +1,3 @@
-import { Image } from "react-bootstrap";
-import Carousel from "react-bootstrap/Carousel";
-
 interface ImagesSliderProps {
   imageCover: string;
   images: string[];
@@ -9,48 +6,19 @@ interface ImagesSliderProps {
 }
 
 export default function ImagesSlider({ imageCover, images, activeImage, setActiveImage }: ImagesSliderProps) {
-  const displayedImages = [imageCover, ...images];
+  const currentImage = activeImage || imageCover;
+
   return (
-    <div className="col-12 col-lg-6">
-      <div className="d-flex flex-column gap-3">
-
-        {/* Carousel */}
-        <div className="flex-grow-1">
-          <Carousel indicators={false} interval={null}>
-            {displayedImages.map((image, index) => (
-              <Carousel.Item key={index}>
-                <Image
-                  className="d-block w-100"
-                  src={activeImage || image}
-                  alt={`Product image ${index + 1}`}
-                  style={{ maxHeight: "500px", objectFit: "cover" }}
-                />
-              </Carousel.Item>
-            ))}
-          </Carousel>
-        </div>
-
-        {/* Thumbnails Horizontal */}
-        <div
-          className="grid col-24 gap-2 overflow-auto justify-content-start"
-        >
-          {images?.map((image, index) => (
-            <Image
-              key={index}
-              src={image}
-              alt={`Thumbnail ${index + 1}`}
-              className="img-fluid border"
-              style={{
-                width: "80px",
-                height: "80px",
-                objectFit: "cover",
-                cursor: "pointer",
-                flex: "0 0 auto", 
-              }}
-              onClick={() => setActiveImage(image)}
-            />
-          ))}
-        </div>
+    <div className="flex min-w-0 flex-col gap-4 lg:col-span-1">
+      <div className="flex h-80 items-center justify-center overflow-hidden rounded-xl bg-slate-50 p-6 sm:h-[30rem]">
+        <img src={currentImage} alt="Selected product" className="h-full w-full object-contain" />
+      </div>
+      <div className="flex gap-3 overflow-x-auto pb-2">
+        {[imageCover, ...images].map((image, index) => (
+          <button key={`${image}-${index}`} type="button" onClick={() => setActiveImage(image)} aria-label={`Show product image ${index + 1}`} className={`h-20 w-20 shrink-0 overflow-hidden rounded-lg border-2 bg-slate-50 p-2 ${currentImage === image ? 'border-red-500' : 'border-transparent'}`}>
+            <img src={image} alt="" className="h-full w-full object-contain" />
+          </button>
+        ))}
       </div>
     </div>
   );

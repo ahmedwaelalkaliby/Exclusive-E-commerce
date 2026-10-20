@@ -1,121 +1,49 @@
-import './About.css';
-import { Image } from 'react-bootstrap';
-import { FaTwitter, FaInstagram, FaLinkedinIn, FaStore, FaMoneyBillWave, FaShoppingBag, FaChartLine, FaTruck, FaHeadset, FaShieldAlt } from "react-icons/fa";
+import { FaChartLine, FaHeadset, FaInstagram, FaLinkedinIn, FaMoneyBillWave, FaShieldAlt, FaShoppingBag, FaStore, FaTruck, FaTwitter } from 'react-icons/fa';
+
+const stats = [
+  { icon: <FaStore />, count: '10.5k', text: 'Sellers active on our site' },
+  { icon: <FaMoneyBillWave />, count: '33k', text: 'Monthly product sales' },
+  { icon: <FaShoppingBag />, count: '45.5k', text: 'Customers active on our site' },
+  { icon: <FaChartLine />, count: '25k', text: 'Annual gross sales' },
+];
+const team = [
+  { image: '/images/tom.png', name: 'Tom Cruise', role: 'Founder & Chairman' },
+  { image: '/images/emma.png', name: 'Emma Watson', role: 'Managing Director' },
+  { image: '/images/will.png', name: 'Will Smith', role: 'Product Designer' },
+];
 
 export default function About() {
-  const serviceStats = [
-    { icon: <FaStore size={36} />, count: '10.5k', text: 'Sellers active on our site' },
-    { icon: <FaMoneyBillWave size={36} />, count: '33k', text: 'Monthly product sales' },
-    { icon: <FaShoppingBag size={36} />, count: '45.5k', text: 'Customers active on our site' },
-    { icon: <FaChartLine size={36} />, count: '25k', text: 'Annual gross sales' },
-  ];
-
-  return <>
-    {/* head of badge */}
-    <div className='d-flex ms-2 col-12 mb-5 w-100 align-items-center gap-5'>
-      <div className='d-flex flex-column gap-5 justify-content-center align-items-center'>
-        <div className='d-flex flex-column col-9'>
-        <h1 >Our Story</h1>
-        <p>
-          Launced in 2015, Exclusive is South Asia's premier online shopping makterplace with an active presense in Bangladesh.
-          Supported by wide range of tailored marketing, data and service solutions, Exclusive has 10,500 sallers and 300 brands
-          and serves 3 millioons customers across the region.
-        </p>
-        <p>
-          Exclusive has more than 1 Million products to offer,
-          growing at a very fast. Exclusive offers a diverse assotment in categories ranging
-          from consumer.
-        </p>
+  return (
+    <div className="space-y-16 py-8">
+      <section className="grid items-center gap-10 md:grid-cols-2">
+        <div className="space-y-5">
+          <h1 className="text-4xl font-bold text-slate-950">Our Story</h1>
+          <p className="leading-7 text-slate-700">Launched in 2015, Exclusive is South Asia's premier online shopping marketplace. Supported by tailored marketing, data, and service solutions, Exclusive has 10,500 sellers and 300 brands and serves 3 million customers across the region.</p>
+          <p className="leading-7 text-slate-700">Exclusive has more than 1 million products to offer and continues to grow, with a diverse assortment across categories.</p>
         </div>
-        
-      </div>
-      <div className='col-6 justify-content-center '>
-        <Image className='w-100 align-self-flex-end' src='/images/portrait-two-african-femal.png'/>
-      </div>
+        <img className="w-full rounded-2xl object-cover" src="/images/portrait-two-african-femal.png" alt="Customers shopping together" />
+      </section>
+
+      <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        {stats.map((stat) => <article key={stat.text} className="flex flex-col items-center gap-3 rounded-xl border border-slate-200 p-7 text-center transition hover:border-red-500 hover:bg-red-600 hover:text-white">
+          <span className="text-3xl" aria-hidden="true">{stat.icon}</span><strong className="text-3xl">{stat.count}</strong><p className="text-sm">{stat.text}</p>
+        </article>)}
+      </section>
+
+      <section className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {team.map((person) => <article key={person.name} className="overflow-hidden rounded-xl bg-slate-50">
+          <img src={person.image} alt={person.name} className="h-96 w-full object-cover object-top" />
+          <div className="p-5"><h2 className="text-2xl font-semibold">{person.name}</h2><p className="mt-1 text-slate-600">{person.role}</p>
+            <div className="mt-4 flex gap-4 text-xl"><a href="#twitter" aria-label={`${person.name} on Twitter`}><FaTwitter /></a><a href="#instagram" aria-label={`${person.name} on Instagram`}><FaInstagram /></a><a href="#linkedin" aria-label={`${person.name} on LinkedIn`}><FaLinkedinIn /></a></div>
+          </div>
+        </article>)}
+      </section>
+
+      <section className="grid grid-cols-1 gap-8 text-center sm:grid-cols-3">
+        <div className="flex flex-col items-center gap-3"><FaTruck size={52} /><h2 className="font-bold">FREE AND FAST DELIVERY</h2><p className="text-sm text-slate-600">Free delivery for all orders over $140</p></div>
+        <div className="flex flex-col items-center gap-3"><FaHeadset size={52} /><h2 className="font-bold">24/7 CUSTOMER SERVICE</h2><p className="text-sm text-slate-600">Friendly support whenever you need it</p></div>
+        <div className="flex flex-col items-center gap-3"><FaShieldAlt size={52} /><h2 className="font-bold">MONEY BACK GUARANTEE</h2><p className="text-sm text-slate-600">We return your money within 30 days</p></div>
+      </section>
     </div>
-
-    {/* boxes */}
-<div className='d-flex w-90 justify-content-center gap-5'>
-  {serviceStats.map((box, index) => (
-    <div
-      key={index}
-      className='box d-flex flex-column justify-content-center align-items-center gap-3 border border-1 rounded-3 p-3'
-    >
-      <span className="text-danger" aria-hidden="true">{box.icon}</span>
-      <h1>{box.count}</h1>
-      <p>{box.text}</p>
-    </div>
-  ))}
-</div>
-
-    {/* owners  */}
-    <div className='d-flex w-90 justify-content-center gap-5 mt-5'>
-      <div className='d-flex flex-column w-90 justify-content-center gap-2 '>
-        <img src='/images/tom.png' style={{ width: 370, height: 430 }} />
-        <div>
-          <h1>Tom Cruise</h1>
-          <p>Founder & Chairman</p>
-          <div className="d-flex gap-3 mt-2">
-  <FaTwitter size={20} style={{ cursor: "pointer" }} />
-  <FaInstagram size={20} style={{ cursor: "pointer" }} />
-  <FaLinkedinIn size={20} style={{ cursor: "pointer" }} />
-</div>
-        </div> 
-      </div>
-      
-      <div className='d-flex flex-column w-90 justify-content-center gap-2 '>
-        <img src='/images/emma.png' style={{ width: 370, height: 430 }} />
-        <div>
-          <h1>Emma Watson</h1>
-          <p>Managing Director</p>
-          <div className="d-flex gap-3 mt-2">
-  <FaTwitter size={20} style={{ cursor: "pointer" }} />
-  <FaInstagram size={20} style={{ cursor: "pointer" }} />
-  <FaLinkedinIn size={20} style={{ cursor: "pointer" }} />
-</div>
-        </div> 
-      </div>
-      
-      <div className='d-flex flex-column w-90 justify-content-center gap-2 '>
-        <img src='/images/will.png' style={{ width: 370, height: 430 }} />
-        <div>
-          <h1>Will Smith</h1>
-          <p>Product Designer</p>
-         <div className="d-flex gap-3 mt-2">
-  <FaTwitter size={20} style={{ cursor: "pointer" }} />
-  <FaInstagram size={20} style={{ cursor: "pointer" }} />
-  <FaLinkedinIn size={20} style={{ cursor: "pointer" }} />
-</div>
-        </div> 
-      </div>
-       
-    </div>
-
-    {/* lastdiv */}
-    <div className='d-flex w-80 justify-content-center gap-5 mt-5'>
-      <div className='d-flex flex-column justify-content-center align-items-center gap-3'>
-        <FaTruck size={64} aria-hidden="true" />
-        <h6>FREE AND FAST DELIVERY</h6>
-        <p>Free delivery for all orders over $140</p>
-      </div>
-
-      <div className='d-flex flex-column justify-content-center align-items-center gap-3'>
-        <FaHeadset size={64} aria-hidden="true" />
-        <h6>24/7 CUSTOMER SERVICE</h6>
-        <p>24/7 CUSTOMER SERVICE</p>
-      </div>
-
-      <div className='d-flex flex-column justify-content-center align-items-center gap-3'>
-        <FaShieldAlt size={64} aria-hidden="true" />
-        <h6>MONEY BACK GUARANTEE</h6>
-        <p>We reurn money within 30 days</p>
-      </div>
-      
-    </div>
-    {/* end */}
-    {/* if you want add something to this page ahh here */}
-
-
-    
-   </>
+  );
 }

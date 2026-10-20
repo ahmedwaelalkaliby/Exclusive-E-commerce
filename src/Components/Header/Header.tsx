@@ -1,12 +1,15 @@
-import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
+import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { AiOutlineHeart, AiOutlineMenu, AiOutlineSearch, AiOutlineShoppingCart, AiOutlineClose } from 'react-icons/ai';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { logout } from '../../store/authSlice';
-import { toast } from 'react-toastify';
-import { AiOutlineHeart, AiOutlineShoppingCart, AiOutlineSearch } from 'react-icons/ai';
-import MobileMenu from './MobileMenu';
+import { toast } from '../../lib/toast';
+
+const linkClass = ({ isActive }: { isActive: boolean }) =>
+  `text-sm transition hover:text-red-600 ${isActive ? 'font-semibold text-red-600' : 'text-slate-800'}`;
 
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const cartQuantity = useAppSelector((state) => state.cart.totalQuantity);
@@ -18,51 +21,59 @@ export default function Header() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     toast.success('Successfully logged out!');
+    setMenuOpen(false);
     navigate('/Login');
   };
 
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <>
-      <div className="bg-dark text-white py-2 text-center small w-100">
+    <header className="w-full">
+      <div className="bg-slate-950 px-4 py-2 text-center text-xs text-white sm:text-sm">
         Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%! Shop Now
       </div>
-      <Navbar expand="lg" bg="light" className="shadow-sm py-3 w-100">
-        <Container fluid className="px-3 px-lg-5">
-          <Navbar.Brand as={NavLink} to="/" className="fw-bold fs-4">Exclusive</Navbar.Brand>
-          <Navbar.Toggle aria-controls="main-navbar" />
-          <Navbar.Collapse id="main-navbar">
-            <Nav className="mx-auto d-none d-lg-flex gap-4">
-              <NavLink to="/" className="nav-link">Home</NavLink>
-              <NavLink to="/products" className="nav-link">Products</NavLink>
-              <NavLink to="/contact" className="nav-link">Contact</NavLink>
-              <NavLink to="/about" className="nav-link">About</NavLink>
-              {!isAuthenticated ? <NavLink to="/signup" className="nav-link">Sign Up</NavLink> : (
-                <Button variant="link" className="text-dark text-decoration-none" onClick={handleLogout}>Log Out</Button>
-              )}
-            </Nav>
-            <div className="d-lg-none w-100 mt-3">
-              <MobileMenu isAuthenticated={isAuthenticated} handleLogout={handleLogout} />
-            </div>
-            <div className="d-flex align-items-center gap-3 mt-3 mt-lg-0 ms-lg-auto">
-              <Form className="position-relative d-none d-lg-flex">
-                <Form.Control type="search" placeholder="Search" className="pe-5" />
-                <Button variant="light" className="position-absolute end-0 top-50 translate-middle-y border-0">
-                  <AiOutlineSearch aria-label="Search" size={18} />
-                </Button>
-              </Form>
-              <NavLink to="/wishlist" className="position-relative">
-                <AiOutlineHeart aria-label="Wishlist" size={22} />
-                {wishlistQuantity > 0 && <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{wishlistQuantity}</span>}
-              </NavLink>
-              <NavLink to="/cart" className="position-relative">
-                <AiOutlineShoppingCart aria-label="Cart" size={22} />
-                {cartQuantity > 0 && <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{cartQuantity}</span>}
-              </NavLink>
-            </div>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-      <style>{`.nav-link.active { color: #dc3545 !important; font-weight: 500; } .nav-link:hover { color: #dc3545 !important; }`}</style>
-    </>
+      <div className="border-b border-slate-200 bg-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-5 lg:px-8">
+          <NavLink to="/" className="text-2xl font-bold tracking-tight text-slate-950">Exclusive</NavLink>
+          <nav className="hidden items-center gap-8 lg:flex">
+            <NavLink to="/" className={linkClass}>Home</NavLink>
+            <NavLink to="/products" className={linkClass}>Products</NavLink>
+            <NavLink to="/contact" className={linkClass}>Contact</NavLink>
+            <NavLink to="/about" className={linkClass}>About</NavLink>
+            {!isAuthenticated ? <NavLink to="/signup" className={linkClass}>Sign Up</NavLink> : (
+              <button type="button" onClick={handleLogout} className="text-sm text-slate-800 hover:text-red-600">Log Out</button>
+            )}
+          </nav>
+          <div className="ml-auto flex items-center gap-4 lg:ml-0">
+            <form className="hidden items-center rounded bg-slate-100 px-3 py-2 md:flex" onSubmit={(event) => event.preventDefault()}>
+              <input type="search" placeholder="Search" aria-label="Search products" className="w-36 bg-transparent text-sm outline-none placeholder:text-slate-500" />
+              <button type="submit" aria-label="Submit search" className="text-slate-700"><AiOutlineSearch size={20} /></button>
+            </form>
+            <NavLink to="/wishlist" aria-label="Wishlist" className="relative text-slate-900 hover:text-red-600">
+              <AiOutlineHeart size={23} />
+              {wishlistQuantity > 0 && <span className="absolute -right-2 -top-2 min-w-4 rounded-full bg-red-600 px-1 text-center text-[10px] leading-4 text-white">{wishlistQuantity}</span>}
+            </NavLink>
+            <NavLink to="/cart" aria-label="Cart" className="relative text-slate-900 hover:text-red-600">
+              <AiOutlineShoppingCart size={23} />
+              {cartQuantity > 0 && <span className="absolute -right-2 -top-2 min-w-4 rounded-full bg-red-600 px-1 text-center text-[10px] leading-4 text-white">{cartQuantity}</span>}
+            </NavLink>
+            <button type="button" aria-label={menuOpen ? 'Close menu' : 'Open menu'} onClick={() => setMenuOpen((open) => !open)} className="text-slate-900 lg:hidden">
+              {menuOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
+            </button>
+          </div>
+        </div>
+        {menuOpen && (
+          <nav className="flex flex-col gap-4 border-t border-slate-200 px-5 py-4 lg:hidden">
+            <NavLink to="/" onClick={closeMenu} className={linkClass}>Home</NavLink>
+            <NavLink to="/products" onClick={closeMenu} className={linkClass}>Products</NavLink>
+            <NavLink to="/contact" onClick={closeMenu} className={linkClass}>Contact</NavLink>
+            <NavLink to="/about" onClick={closeMenu} className={linkClass}>About</NavLink>
+            {!isAuthenticated ? <NavLink to="/signup" onClick={closeMenu} className={linkClass}>Sign Up</NavLink> : (
+              <button type="button" onClick={handleLogout} className="text-left text-sm text-slate-800">Log Out</button>
+            )}
+          </nav>
+        )}
+      </div>
+    </header>
   );
 }

@@ -1,143 +1,64 @@
-import TextField from '@mui/material/TextField';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
-import * as Yup from 'yup'; 
-import './signup.css'; // Add a CSS file for custom styles
+import * as Yup from 'yup';
+import { FcGoogle } from 'react-icons/fc';
+import { toast } from '../../lib/toast';
 import { useSignupMutation } from '../../store/api';
-import { toast } from 'react-toastify';
 import { getApiErrorMessage } from '../../lib/apiError';
 import type { SignupDetails } from '../../types';
-import { FcGoogle } from 'react-icons/fc';
+
+const inputClass = 'w-full border-b border-slate-300 bg-transparent py-3 text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-red-600';
 
 export default function Signup() {
-
   const navigate = useNavigate();
-
   const [signup, { isLoading }] = useSignupMutation();
 
-  async function handleRegister(formvalues: SignupDetails) {
+  async function handleSignup(values: SignupDetails) {
     try {
-      const data = await signup(formvalues).unwrap();
-      if (data.message === 'success') {
-         navigate('/');
-      } else {
-        toast.error(data.message || 'An error occurred');
-      }
+      const data = await signup(values).unwrap();
+      if (data.message === 'success') navigate('/');
+      else toast.error(data.message || 'An error occurred');
     } catch (error: unknown) {
       toast.error(getApiErrorMessage(error));
     }
   }
 
   const formik = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-      password: '',
-      rePassword: '',
-      phone: '',
-    },
+    initialValues: { name: '', email: '', password: '', rePassword: '', phone: '' },
     validationSchema: Yup.object({
       name: Yup.string().required('Name is required'),
       email: Yup.string().email('Invalid email address').required('Email is required'),
       password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-      rePassword: Yup.string()
-        .oneOf([Yup.ref('password'), undefined], 'Passwords must match')
-        .required('Repeat Password is required'),
-      phone: Yup.string().matches(/^01[0125][0-9]{8}$/, 'Phone number must be egyptian Number').required('Phone number is required'),
+      rePassword: Yup.string().oneOf([Yup.ref('password'), undefined], 'Passwords must match').required('Repeat password is required'),
+      phone: Yup.string().matches(/^01[0125][0-9]{8}$/, 'Enter a valid Egyptian phone number').required('Phone number is required'),
     }),
-    onSubmit: handleRegister,
+    onSubmit: handleSignup,
   });
 
+  const fields = [
+    { name: 'name', type: 'text', placeholder: 'Name' },
+    { name: 'email', type: 'email', placeholder: 'Email' },
+    { name: 'password', type: 'password', placeholder: 'Password' },
+    { name: 'rePassword', type: 'password', placeholder: 'Repeat Password' },
+    { name: 'phone', type: 'tel', placeholder: 'Phone' },
+  ] as const;
+
   return (
-    <div className="container">
-      <div className="row align-items-center justify-content-center">
-        <div className="col-12 col-md-6 mb-4">
-          <img
-            src="/images/phone1.png"
-            className="img-fluid signup-image"
-            alt="Signup"
-          />
-        </div>
-        <div className="col-12 col-md-6">
-          <h1>Create an account</h1>
-          <p>Enter your details below</p>
-          <form className="d-flex flex-column gap-4" onSubmit={formik.handleSubmit}>
-            <TextField
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              name="name"
-              type="text"
-              label="Name"
-              variant="standard"
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
-            />
-            <TextField
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              name="email"
-              type="email"
-              label="Email"
-              variant="standard"
-              error={formik.touched.email && Boolean(formik.errors.email)}
-              helperText={formik.touched.email && formik.errors.email}
-            />
-            <TextField
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              name="password"
-              type="password"
-              label="Password"
-              variant="standard"
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-            />
-            <TextField
-              value={formik.values.rePassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              name="rePassword"
-              type="password"
-              label="Repeat Password"
-              variant="standard"
-              error={formik.touched.rePassword && Boolean(formik.errors.rePassword)}
-              helperText={formik.touched.rePassword && formik.errors.rePassword}
-            />
-            <TextField
-              value={formik.values.phone}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              name="phone"
-              type="phone"
-              label="Phone"
-              variant="standard"
-              error={formik.touched.phone && Boolean(formik.errors.phone)}
-              helperText={formik.touched.phone && formik.errors.phone}
-            />
-            <button type="submit" className="btn btn-danger text-white">
-              {isLoading ? <div className="spinner-border text-light" role="status"></div> : 'Create Account'}
-            </button>
-            <button className="btn btn-light">
-              <div className="d-flex gap-3 justify-content-center align-items-center">
-                <FcGoogle size={20} aria-hidden="true" />
-                <p className="mb-0">Sign up with Google</p>
-              </div>
-            </button>
-            <div className="d-flex gap-3 justify-content-center align-items-center">
-              <p className="mb-0">Already have an account!</p>
-              <button
-                onClick={() => navigate('/Login')}
-                className="btn btn-light border-0 border-bottom text-black"
-              >
-                Log In
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+    <main className="mx-auto grid max-w-5xl items-center gap-10 py-10 md:grid-cols-2">
+      <img src="/images/phone1.png" className="mx-auto w-full max-w-md rounded-xl object-cover" alt="Shop from your phone" />
+      <section className="mx-auto w-full max-w-md">
+        <h1 className="text-3xl font-semibold text-slate-950">Create an account</h1>
+        <p className="mt-2 text-slate-600">Enter your details below</p>
+        <form className="mt-8 space-y-5" onSubmit={formik.handleSubmit}>
+          {fields.map((field) => <div key={field.name}>
+            <input className={inputClass} name={field.name} type={field.type} placeholder={field.placeholder} aria-label={field.placeholder} value={formik.values[field.name]} onChange={formik.handleChange} onBlur={formik.handleBlur} />
+            {formik.touched[field.name] && formik.errors[field.name] && <p className="mt-1 text-sm text-red-600">{formik.errors[field.name]}</p>}
+          </div>)}
+          <button type="submit" disabled={isLoading} className="w-full rounded-lg bg-red-600 px-5 py-3 font-medium text-white hover:bg-red-700 disabled:opacity-60">{isLoading ? 'Creating account…' : 'Create Account'}</button>
+          <button type="button" className="flex w-full items-center justify-center gap-3 rounded-lg border border-slate-300 px-5 py-3 text-slate-800 hover:bg-slate-50"><FcGoogle size={20} />Sign up with Google</button>
+          <p className="text-center text-sm text-slate-600">Already have an account? <button type="button" onClick={() => navigate('/Login')} className="ml-1 font-medium text-red-600 hover:underline">Log in</button></p>
+        </form>
+      </section>
+    </main>
   );
 }

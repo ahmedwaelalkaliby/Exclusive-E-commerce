@@ -1,5 +1,4 @@
-import { Container, Row, Col, Form, Button, Image } from 'react-bootstrap';
-import { AiFillFacebook, AiOutlineTwitter, AiFillInstagram, AiFillLinkedin } from 'react-icons/ai';
+import { AiFillFacebook, AiFillInstagram, AiFillLinkedin, AiOutlineTwitter } from 'react-icons/ai';
 import { RiSendPlaneFill } from 'react-icons/ri';
 import { useAppSelector } from '../../store/hooks';
 
@@ -8,57 +7,52 @@ const quickLinks = ['Privacy Policy', 'Terms Of Use', 'FAQ', 'Contact'];
 
 export default function Footer() {
   const theme = useAppSelector((state) => state.theme);
-  const isLight = theme === 'light';
-  const themeClasses = isLight ? 'bg-black text-white' : 'bg-light text-dark';
-  const inputClasses = isLight ? 'bg-transparent text-white border-light' : 'bg-white text-dark border-secondary';
+  const dark = theme === 'light';
+  const footerTheme = dark ? 'bg-slate-950 text-white' : 'bg-slate-100 text-slate-900';
 
   return (
-    <footer className={`${themeClasses} pt-5 pb-2`}>
-      <Container>
-        <Row className="gy-4">
-          <Col lg={3} md={6}>
-            <h3 className="fw-bold mb-4">Exclusive</h3>
-            <h5 className="fs-6 mb-3">Subscribe</h5>
-            <p className="small mb-3">Get 10% off your first order</p>
-            <Form className="d-flex position-relative w-60">
-              <Form.Control type="email" placeholder="Enter your email" className={`${inputClasses} pe-5 border-0 rounded-4`} />
-              <Button variant="link" className="position-absolute end-0 top-50 translate-middle-y text-reset">
-                <RiSendPlaneFill aria-label="Send" size={20} />
-              </Button>
-            </Form>
-          </Col>
-          <Col lg={2} md={6}>
-            <h5 className="fw-bold mb-4">Support</h5>
-            <address className="small lh-lg">111 Bijoy Sarani, Dhaka,<br />Bangladesh.<br />exclusive@gmail.com<br />+88015-88888-9999</address>
-          </Col>
-          <Col lg={2} md={6}>
-            <h5 className="fw-bold mb-4">Account</h5>
-            <ul className="list-unstyled small lh-lg">{accountLinks.map((link) => <li key={link}><a href={`/${link}`} className="text-reset text-decoration-none">{link}</a></li>)}</ul>
-          </Col>
-          <Col lg={2} md={6}>
-            <h5 className="fw-bold mb-4">Quick Link</h5>
-            <ul className="list-unstyled small lh-lg">{quickLinks.map((link) => <li key={link}><a href={`/${link}`} className="text-reset text-decoration-none">{link}</a></li>)}</ul>
-          </Col>
-          <Col lg={3} md={6}>
-            <h5 className="fw-bold mb-2">Download App</h5>
-            <p className="small mb-3">Save $3 with App New User Only</p>
-            <div className="d-flex gap-2 align-items-center">
-              <Image src="/images/Qrcode1.png" alt="QR code" width={80} height={80} className="bg-white p-1" />
-              <div className="d-flex flex-column gap-2">
-                <a href="#playstore"><Image src="/images/play-store.png" alt="Google Play" width={120} /></a>
-                <a href="#appstore"><Image src="/images/appstore.png" alt="App Store" width={120} /></a>
-              </div>
+    <footer className={`${footerTheme} mt-12 py-12`}>
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-5 sm:grid-cols-2 lg:grid-cols-5 lg:px-8">
+        <section>
+          <h2 className="mb-5 text-2xl font-bold">Exclusive</h2>
+          <h3 className="mb-2 font-semibold">Subscribe</h3>
+          <p className="mb-4 text-sm opacity-80">Get 10% off your first order</p>
+          <form className="flex max-w-xs items-center rounded border border-current px-3 py-2" onSubmit={(event) => event.preventDefault()}>
+            <input type="email" placeholder="Enter your email" aria-label="Email address" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:opacity-60" />
+            <button type="submit" aria-label="Subscribe"><RiSendPlaneFill size={20} /></button>
+          </form>
+        </section>
+        <section>
+          <h3 className="mb-4 font-bold">Support</h3>
+          <address className="space-y-2 text-sm not-italic leading-6 opacity-80">111 Bijoy Sarani, Dhaka, Bangladesh.<br />exclusive@gmail.com<br />+88015-88888-9999</address>
+        </section>
+        <section>
+          <h3 className="mb-4 font-bold">Account</h3>
+          <ul className="space-y-2 text-sm opacity-80">{accountLinks.map((link) => <li key={link}><a href={`/${link}`} className="hover:underline">{link}</a></li>)}</ul>
+        </section>
+        <section>
+          <h3 className="mb-4 font-bold">Quick Link</h3>
+          <ul className="space-y-2 text-sm opacity-80">{quickLinks.map((link) => <li key={link}><a href={`/${link}`} className="hover:underline">{link}</a></li>)}</ul>
+        </section>
+        <section>
+          <h3 className="mb-3 font-bold">Download App</h3>
+          <p className="mb-3 text-sm opacity-80">Save $3 with App New User Only</p>
+          <div className="flex items-center gap-3">
+            <img src="/images/Qrcode1.png" alt="QR code" className="h-20 w-20 bg-white p-1" />
+            <div className="flex flex-col gap-2">
+              <a href="#playstore"><img src="/images/play-store.png" alt="Google Play" className="w-28" /></a>
+              <a href="#appstore"><img src="/images/appstore.png" alt="App Store" className="w-28" /></a>
             </div>
-            <div className="d-flex gap-3 mt-3">
-              <a href="#facebook" className="text-reset"><AiFillFacebook /></a>
-              <a href="#twitter" className="text-reset"><AiOutlineTwitter /></a>
-              <a href="#instagram" className="text-reset"><AiFillInstagram /></a>
-              <a href="#linkedin" className="text-reset"><AiFillLinkedin /></a>
-            </div>
-          </Col>
-        </Row>
-        <div className="text-center mt-5 pt-4 border-top opacity-50 small">&copy; Copyright Rimel 2025. All rights reserved</div>
-      </Container>
+          </div>
+          <div className="mt-4 flex gap-4 text-xl">
+            <a href="#facebook" aria-label="Facebook"><AiFillFacebook /></a>
+            <a href="#twitter" aria-label="Twitter"><AiOutlineTwitter /></a>
+            <a href="#instagram" aria-label="Instagram"><AiFillInstagram /></a>
+            <a href="#linkedin" aria-label="LinkedIn"><AiFillLinkedin /></a>
+          </div>
+        </section>
+      </div>
+      <p className="mx-auto mt-10 max-w-7xl border-t border-current/20 px-5 pt-5 text-center text-xs opacity-60 lg:px-8">© Copyright Rimel 2025. All rights reserved</p>
     </footer>
   );
 }

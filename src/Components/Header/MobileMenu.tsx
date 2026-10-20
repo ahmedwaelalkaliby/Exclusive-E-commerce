@@ -1,61 +1,19 @@
-import { Nav } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 
 interface MobileMenuProps {
   isAuthenticated: boolean;
   handleLogout: () => void;
 }
 
-export default function MobileMenu({
-  isAuthenticated,
-  handleLogout,
-}: MobileMenuProps) {
+export default function MobileMenu({ isAuthenticated, handleLogout }: MobileMenuProps) {
+  const linkClass = 'border-b border-slate-100 py-3 text-sm text-slate-800 hover:text-red-600';
   return (
-    <Nav className="flex-column w-100 text-center">
-
-      <NavLink
-        to="/"
-        className="nav-link py-3 w-100 border-bottom"
-      >
-        Home
-      </NavLink>
-
-      <NavLink
-        to="/Products"
-        className="nav-link py-3 w-100 border-bottom"
-      >
-        Products
-        </NavLink>
-          
-      <NavLink
-        to="/Contact"
-        className="nav-link py-3 w-100 border-bottom"
-      >
-        Contact
-    </NavLink>
-
-      <NavLink
-        to="/About"
-        className="nav-link py-3 w-100 border-bottom"
-      >
-        About
-      </NavLink>
-
-      {!isAuthenticated ? (
-        <NavLink
-          to="/signup"
-          className="nav-link py-3 w-100"
-        >
-          Sign Up
-        </NavLink>
-      ) : (
-        <button
-          className="btn btn-link text-dark text-decoration-none py-3 w-100"
-          onClick={handleLogout}
-        >
-          Log Out
-        </button>
-      )}
-    </Nav>
+    <nav className="flex flex-col text-center">
+      <NavLink to="/" className={linkClass}>Home</NavLink>
+      <NavLink to="/products" className={linkClass}>Products</NavLink>
+      <NavLink to="/contact" className={linkClass}>Contact</NavLink>
+      <NavLink to="/about" className={linkClass}>About</NavLink>
+      {!isAuthenticated ? <NavLink to="/signup" className={linkClass}>Sign Up</NavLink> : <button type="button" onClick={handleLogout} className={linkClass}>Log Out</button>}
+    </nav>
   );
 }
