@@ -7,6 +7,7 @@ import { useSignupMutation } from '../../store/api';
 import { toast } from 'react-toastify';
 import { getApiErrorMessage } from '../../lib/apiError';
 import type { SignupDetails } from '../../types';
+import { FcGoogle } from 'react-icons/fc';
 
 export default function Signup() {
 
@@ -121,7 +122,7 @@ export default function Signup() {
             </button>
             <button className="btn btn-light">
               <div className="d-flex gap-3 justify-content-center align-items-center">
-                <img src="../images/Google.png" alt="Google" width="20" height="20" />
+                <FcGoogle size={20} aria-hidden="true" />
                 <p className="mb-0">Sign up with Google</p>
               </div>
             </button>

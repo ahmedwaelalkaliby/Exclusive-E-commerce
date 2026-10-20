@@ -1,8 +1,15 @@
 import './About.css';
 import { Image } from 'react-bootstrap';
-import { FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { FaTwitter, FaInstagram, FaLinkedinIn, FaStore, FaMoneyBillWave, FaShoppingBag, FaChartLine, FaTruck, FaHeadset, FaShieldAlt } from "react-icons/fa";
 
 export default function About() {
+  const serviceStats = [
+    { icon: <FaStore size={36} />, count: '10.5k', text: 'Sellers active on our site' },
+    { icon: <FaMoneyBillWave size={36} />, count: '33k', text: 'Monthly product sales' },
+    { icon: <FaShoppingBag size={36} />, count: '45.5k', text: 'Customers active on our site' },
+    { icon: <FaChartLine size={36} />, count: '25k', text: 'Annual gross sales' },
+  ];
+
   return <>
     {/* head of badge */}
     <div className='d-flex ms-2 col-12 mb-5 w-100 align-items-center gap-5'>
@@ -29,17 +36,12 @@ export default function About() {
 
     {/* boxes */}
 <div className='d-flex w-90 justify-content-center gap-5'>
-  {[
-    { imgSrc: '/images/Services1.png', count: '10.5k', text: 'Sellers active on our site' },
-    { imgSrc: '/images/Services2.png', count: '10.5k', text: 'Sellers active on our site' },
-    { imgSrc: '/images/Services3.png', count: '10.5k', text: 'Sellers active on our site' },
-    { imgSrc: '/images/Services4.png', count: '10.5k', text: 'Sellers active on our site' },
-  ].map((box, index) => (
+  {serviceStats.map((box, index) => (
     <div
       key={index}
       className='box d-flex flex-column justify-content-center align-items-center gap-3 border border-1 rounded-3 p-3'
     >
-      <Image src={box.imgSrc} alt={`Service ${index + 1}`} style={{ width: 80, height: 80 }} />
+      <span className="text-danger" aria-hidden="true">{box.icon}</span>
       <h1>{box.count}</h1>
       <p>{box.text}</p>
     </div>
@@ -92,19 +94,19 @@ export default function About() {
     {/* lastdiv */}
     <div className='d-flex w-80 justify-content-center gap-5 mt-5'>
       <div className='d-flex flex-column justify-content-center align-items-center gap-3'>
-        <img src='/images/Truck.png' style={{width:80 , height:80 }} />
+        <FaTruck size={64} aria-hidden="true" />
         <h6>FREE AND FAST DELIVERY</h6>
         <p>Free delivery for all orders over $140</p>
       </div>
 
       <div className='d-flex flex-column justify-content-center align-items-center gap-3'>
-        <img src='/images/headphone.png' style={{width:80 , height:80 }} />
+        <FaHeadset size={64} aria-hidden="true" />
         <h6>24/7 CUSTOMER SERVICE</h6>
         <p>24/7 CUSTOMER SERVICE</p>
       </div>
 
       <div className='d-flex flex-column justify-content-center align-items-center gap-3'>
-        <img src='/images/iconright.png' style={{width:80 , height:80 }} />
+        <FaShieldAlt size={64} aria-hidden="true" />
         <h6>MONEY BACK GUARANTEE</h6>
         <p>We reurn money within 30 days</p>
       </div>

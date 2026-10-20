@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { logout } from '../../store/authSlice';
 import { toast } from 'react-toastify';
+import { AiOutlineHeart, AiOutlineShoppingCart, AiOutlineSearch } from 'react-icons/ai';
 import MobileMenu from './MobileMenu';
 
 export default function Header() {
@@ -46,15 +47,15 @@ export default function Header() {
               <Form className="position-relative d-none d-lg-flex">
                 <Form.Control type="search" placeholder="Search" className="pe-5" />
                 <Button variant="light" className="position-absolute end-0 top-50 translate-middle-y border-0">
-                  <img src="/images/Vector.png" alt="Search" width="18" />
+                  <AiOutlineSearch aria-label="Search" size={18} />
                 </Button>
               </Form>
               <NavLink to="/wishlist" className="position-relative">
-                <img src="/images/Wishlist.png" alt="Wishlist" width="22" />
+                <AiOutlineHeart aria-label="Wishlist" size={22} />
                 {wishlistQuantity > 0 && <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{wishlistQuantity}</span>}
               </NavLink>
               <NavLink to="/cart" className="position-relative">
-                <img src="/images/Cart1.png" alt="Cart" width="22" />
+                <AiOutlineShoppingCart aria-label="Cart" size={22} />
                 {cartQuantity > 0 && <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{cartQuantity}</span>}
               </NavLink>
             </div>

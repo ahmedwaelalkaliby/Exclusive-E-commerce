@@ -1,5 +1,6 @@
 import { Container, Row, Col, Form, Button, Image } from 'react-bootstrap';
 import { AiFillFacebook, AiOutlineTwitter, AiFillInstagram, AiFillLinkedin } from 'react-icons/ai';
+import { RiSendPlaneFill } from 'react-icons/ri';
 import { useAppSelector } from '../../store/hooks';
 
 const accountLinks = ['My Account', 'Login / Register', 'Cart', 'Wishlist', 'Shop'];
@@ -22,7 +23,7 @@ export default function Footer() {
             <Form className="d-flex position-relative w-60">
               <Form.Control type="email" placeholder="Enter your email" className={`${inputClasses} pe-5 border-0 rounded-4`} />
               <Button variant="link" className="position-absolute end-0 top-50 translate-middle-y text-reset">
-                <Image src="/images/send.png" alt="Send" width={20} />
+                <RiSendPlaneFill aria-label="Send" size={20} />
               </Button>
             </Form>
           </Col>

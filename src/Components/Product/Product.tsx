@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Spinner from 'react-bootstrap/Spinner';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
 
 export default function Product() {
   const dispatch = useAppDispatch();
@@ -173,10 +174,7 @@ export default function Product() {
                       onClick={(e) => handleAddToCart(e, product)}
                     >
                       <div className="d-flex gap-2 justify-content-center">
-                        <img
-                          src="/images/Cart2.png"
-                          style={{ width: "24px", height: "24px" }}
-                        />
+                        <AiOutlineShoppingCart size={24} aria-hidden="true" />
                         <p>Add To Cart</p>
                       </div>
                     </Button>

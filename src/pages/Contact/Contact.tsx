@@ -1,4 +1,7 @@
 
+import { AiOutlineMail } from 'react-icons/ai';
+import { FaPhoneAlt } from 'react-icons/fa';
+
 export default function Contact() {
   console.log("contact")
   return <>
@@ -9,7 +12,7 @@ export default function Contact() {
         {/* div1 */}
         <div className='d-flex flex-column gap-2 mb-3 p-3'>
           <div className='d-flex align-items-center gap-2'>
-            <img src='../images/icons-phone.png' style={{ width: 40, height: 40 }} alt="Phone Icon" />
+            <FaPhoneAlt size={32} aria-hidden="true" />
             <h4>Call To Us</h4>
           </div>
           <div>
@@ -23,7 +26,7 @@ export default function Contact() {
         {/* div2 */}
         <div className='d-flex flex-column gap-2 mb-3 p-3'>
           <div className='d-flex align-items-center gap-2'>
-            <img src='../images/icons-mail.png' style={{ width: 40, height: 40 }} alt="Mail Icon" />
+            <AiOutlineMail size={36} aria-hidden="true" />
             <h4>Write To Us</h4>
           </div>
           <div>
