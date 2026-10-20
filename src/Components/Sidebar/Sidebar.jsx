@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
-import ThemeContext from '../../ThemeContext.jsx/ThemeContext';
+import React from 'react'
+import { useSelector } from 'react-redux';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 export default function Sidebar() {
-  const { theme } = useContext(ThemeContext);
+  const theme = useSelector((state) => state.theme);
 
   const settings = {
     dots: true,

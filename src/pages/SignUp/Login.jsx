@@ -1,37 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
-import axios from 'axios';
 import * as Yup from 'yup';
 import TextField from '@mui/material/TextField';
 import { Link } from 'react-router-dom'
 import './Login.css'; // Import the new CSS file
-import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { useLoginMutation } from '../../store/api';
+import { setCredentials } from '../../store/authSlice';
 
 export default function Login() {
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const dispatch = useDispatch();
+  const [login, { isLoading }] = useLoginMutation();
 
   async function handleRegister(formvalues) {
     try {
-      setIsLoading(true);
-      const { data } = await axios.post(
-        'https://ecommerce.routemisr.com/api/v1/auth/signin',
-        formvalues
-      );
+      const data = await login(formvalues).unwrap();
       if (data.message === 'success') {
-        setIsLoading(false);
-        login(data.user, data.token);
+        dispatch(setCredentials({ user: data.user, token: data.token }));
         navigate('/');
       } else {
-        setIsLoading(false);
         toast.error(data.message || 'An error occurred');
       }
     } catch (err) {
-      setIsLoading(false);
-      toast.error(err.response?.data?.message || 'An error occurred');
+      toast.error(err.data?.message || 'An error occurred');
     }
   }
 

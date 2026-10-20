@@ -1,15 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Container, Form, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import { NavLink, useNavigate } from 'react-router-dom';
-import ThemeContext from '../../ThemeContext.jsx/ThemeContext';
-import { useSelector } from 'react-redux';
-import { useAuth } from '../../context/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { setTheme } from '../../store/themeSlice';
+import { logout } from '../../store/authSlice';
+import { toast } from 'react-toastify';
 
 export default function Header() {
-  const { setTheme, theme } = useContext(ThemeContext);
+  const dispatch = useDispatch();
   const cartQuantity = useSelector((state) => state.cart.totalQuantity);
   const wishlistQuantity = useSelector((state) => state.wishlist.items.length);
-  const { isAuthenticated, logout } = useAuth();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
 
   // Sidebar state
@@ -18,7 +19,8 @@ export default function Header() {
   const handleShowSidebar = () => setShowSidebar(true);
 
   const handleLogout = () => {
-    logout();
+    dispatch(logout());
+    toast.success('Successfully logged out!');
     navigate('/Login');
     handleCloseSidebar();
   };

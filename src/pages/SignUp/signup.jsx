@@ -1,36 +1,28 @@
 import React from 'react';
-import Signin from './Login';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
-import axios from 'axios';
 import * as Yup from 'yup'; 
-import { useState } from 'react';
 import './signup.css'; // Add a CSS file for custom styles
+import { useSignupMutation } from '../../store/api';
+import { toast } from 'react-toastify';
 
 export default function Signup() {
 
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [signup, { isLoading }] = useSignupMutation();
 
   async function handleRegister(formvalues) {
     try {
-      setIsLoading(true);
-      const { data } = await axios.post(
-        'https://ecommerce.routemisr.com/api/v1/auth/signup',
-        formvalues
-      );
+      const data = await signup(formvalues).unwrap();
       if (data.message === 'success') {
-        setIsLoading(false);
          navigate('/');
       } else {
-        setIsLoading(false);
-        alert(data.message || 'An error occurred');
+        toast.error(data.message || 'An error occurred');
       }
     } catch (err) {
-      setIsLoading(false);
-      alert(err.response?.data?.message || 'An error occurred');
+      toast.error(err.data?.message || 'An error occurred');
     }
   }
 

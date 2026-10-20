@@ -1,10 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import ThemeContext from '../../ThemeContext.jsx/ThemeContext';
+import { useSelector } from 'react-redux';
 
 export default function Footer() {
-  const { theme } = useContext(ThemeContext);
+  const theme = useSelector((state) => state.theme);
 
   return (
     <footer

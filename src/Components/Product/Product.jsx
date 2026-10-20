@@ -3,46 +3,30 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import Badge from "react-bootstrap/Badge";
 import "react-rater/lib/react-rater.css"; 
 import Rating from '@mui/material/Rating';
 import './Product.css';
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import { useDispatch, useSelector } from 'react-redux';
+import { useGetProductsQuery } from '../../store/api';
 import { cartActions } from '../../store/cartSlice';
 import { wishlistActions } from '../../store/wishlistSlice';
 import { toast } from 'react-toastify';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Spinner from 'react-bootstrap/Spinner';
-import { useAuth } from '../../context/AuthContext';
 
 export default function Product() {
   const dispatch = useDispatch();
   const wishlistItems = useSelector((state) => state.wishlist.items);
-  const { requireAuth } = useAuth();
-
-  const getProducts = async () => {
-    const response = await axios.get("https://ecommerce.routemisr.com/api/v1/products");
-    return response.data.data;
-  };
-
-  const { data, isLoading: loading, isError: error } = useQuery({
-    queryKey: ["products"],
-    queryFn: getProducts,
-    staleTime: 5000,
-    retry: 8,
-    refetchInterval: 1000 * 60 * 5, // 5 minutes
-    refetchOnWindowFocus: true,
-  });
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const { data, isLoading: loading, isError: error, refetch } = useGetProductsQuery(undefined, { pollingInterval: 300000 });
 
   const handleAddToCart = (e, product) => {
     e.stopPropagation();
     e.preventDefault();
-    if (!requireAuth()) return;
+    if (!isAuthenticated) return toast.error('Please login to continue!');
     
     dispatch(cartActions.addToCart({
       id: product.id,
@@ -64,7 +48,7 @@ export default function Product() {
   const handleWishlist = (e, product) => {
     e.stopPropagation();
     e.preventDefault();
-    if (!requireAuth()) return;
+    if (!isAuthenticated) return toast.error('Please login to continue!');
     
     const isInWishlist = wishlistItems.some(item => item.id === product.id);
     
@@ -111,12 +95,12 @@ export default function Product() {
           <h4 className="alert-heading">Error Loading Products!</h4>
           <p>We're having trouble loading the products. Please try again later.</p>
           <hr />
-          <p className="mb-0">Error details: {error.message}</p>
+          <p className="mb-0">Please try again.</p>
         </div>
         <Button 
           variant="primary" 
           className="mt-3"
-          onClick={() => window.location.reload()}
+          onClick={refetch}
         >
           Retry
         </Button>

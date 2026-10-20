@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import Image from 'react-bootstrap/Image';
 import Rating from '@mui/material/Rating';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -18,7 +17,7 @@ import { cartActions } from '../../store/cartSlice';
 import { wishlistActions } from '../../store/wishlistSlice';
 import { toast } from 'react-toastify';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { useAuth } from '../../context/AuthContext';
+import { useGetProductQuery, useGetProductsQuery } from '../../store/api';
 import Spinner from 'react-bootstrap/Spinner';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
@@ -27,48 +26,13 @@ export default function ProductDetails() {
   const { id , category} = useParams(); 
   const dispatch = useDispatch();
   const wishlistItems = useSelector((state) => state.wishlist.items);
-  const { requireAuth } = useAuth();
-  const [productDetails, setProductDetails] = useState(null); 
-  const [relatedProducts, setRelatedProducts] = useState([]);
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const { data: productDetails, isLoading: loading, isError: error } = useGetProductQuery(id);
+  const { data: products = [] } = useGetProductsQuery();
+  const relatedProducts = products.filter((product) => product.category.name === category && product.id !== id);
   const [activeSize, setActiveSize] = useState(null);
   const [counter, setCounter] = useState(1);
   const [activeImage, setActiveImage] = useState(null);
-  console.log(id)
-  console.log(category) 
-      const fetchProduct = async () => {
-      try {
-        const response = await axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`);
-          setProductDetails(response.data.data); 
-          
-        setLoading(false); 
-      } catch (err) {
-        setError(err.response?.data?.message || err.message);
-        setLoading(false); 
-      }
-    }; 
-    
-function fetchRelatedProducts(category, id) {
-  axios
-    .get(`https://ecommerce.routemisr.com/api/v1/products`)
-    .then(({ data }) => {
-      let allProducts = data.data;
-      console.log(allProducts)
-      let related = allProducts.filter((product) => product.category.name == category && product.id != id);
-      console.log(related)
-      setRelatedProducts(related);
-    })
-    .catch((err) => {
-      console.error("Error fetching related products:", err);
-      setRelatedProducts([]);
-    });
-}
-
-  useEffect(() => {
-    fetchProduct();
-    fetchRelatedProducts(category, id);
-  }, [id, category]); 
 
   const handleSizeSelect = (size) => {
     setActiveSize(size);
@@ -81,6 +45,7 @@ function fetchRelatedProducts(category, id) {
   const handleAddToCart = (e) => {
     e.stopPropagation();
     e.preventDefault();
+    if (!isAuthenticated) return toast.error('Please login to continue!');
     if (!activeSize) {
       toast.warning('Please select a size first!', {
         position: "top-right",
@@ -103,7 +68,7 @@ function fetchRelatedProducts(category, id) {
   };
 
   const handleWishlist = () => {
-    if (!requireAuth()) return;
+    if (!isAuthenticated) return toast.error('Please login to continue!');
     
     const isInWishlist = wishlistItems.some(item => item.id === productDetails.id);
     
@@ -132,7 +97,7 @@ function fetchRelatedProducts(category, id) {
   const handleRelatedProductAddToCart = (e, product) => {
     e.stopPropagation();
     e.preventDefault();
-    if (!requireAuth()) return;
+    if (!isAuthenticated) return toast.error('Please login to continue!');
     
     dispatch(cartActions.addToCart({
       id: product.id,
